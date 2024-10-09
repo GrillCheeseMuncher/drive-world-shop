@@ -1,0 +1,260 @@
+.sections-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  justify-items: center;
+}
+
+.section-container {
+  padding: 20px;
+  padding-bottom: 5px;
+  border: 2px solid #2b2b2b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #505050;
+  border-radius: 10px;
+  position: relative;
+  width: 325px;
+  height: 220px;
+  transition: background-color 0.3s ease;
+}
+
+.sold {
+  background-color: rgba(120, 0, 0, 0.6);
+  position: absolute;
+  top: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.sold-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  color: white;
+  font-size: 4rem;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.image-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed #2b2b2b;
+  cursor: pointer;
+  position: relative;
+  background-color: #3a3a3a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image-upload input[type='file'] {
+  display: none;
+}
+
+.image-upload .plus-icon {
+  font-size: 40px;
+  color: white;
+  position: absolute;
+}
+
+.section-image {
+  width: 90%;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.section-input {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  white-space: nowrap;
+  font-size: 1.7rem;
+  text-align: left;
+  background-color: rgba(10, 10, 10, 0.5);
+  border: none;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 3;
+  transition: width 0.2s;
+  overflow: hidden;
+}
+
+.price-input-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.price-input {
+  flex: 1;
+  position: relative;
+  margin-top: 10px;
+  width: 100%;
+  background-color: rgba(80, 80, 80, 0);
+  text-align: center;
+  font-size: 2rem;
+  border: 2px dashed #2b2b2b;
+  background-color: #3a3a3a;
+  left: 0;
+}
+
+.menu {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 10;
+}
+
+.menu-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.menu-content {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #2b2b2b;
+  padding: 5px;
+  border-radius: 5px;
+  width: 120px;
+  z-index: 15;
+}
+
+.menu-button:hover + .menu-content,
+.menu-content:hover {
+  display: block;
+}
+
+.close-button,
+.sold-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.sold-button {
+  background-color: #3498db;
+}
+
+.text-inputs-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-section-button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #2980b9;
+  }
+}
+
+.option-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.option-button {
+  width: 50px;
+  height: 50px;
+  margin-left: 5px;
+  background-color: rgba(80, 80, 80, 0.8);
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, opacity 0.3s;
+
+  &.selected {
+    background-color: green;
+  }
+
+  &:not(.selected) {
+    opacity: 0.6;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.count-input {
+  position: absolute;
+  text-align: center;
+  top: 5px;
+  right: 5px;
+  width: 40px;
+  border: none;
+  background-color: rgba(10, 10, 10, 0.5);
+  color: white;
+  font-size: 1.5rem;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.count-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+
+.count-controls button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.count-controls span {
+  font-size: 20px;
+  min-width: max-content;
+  text-align: center;
+}
+
+.count-display {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(10, 10, 10, 0.5);
+  color: white;
+  padding: 2.5px 15px;
+  border-radius: 10px;
+  font-size: 1.5rem;
+}
