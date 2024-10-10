@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Section.scss';
 
 interface Section {
@@ -12,6 +12,23 @@ interface Section {
 
 const SectionManager: React.FC = () => {
   const [sections, setSections] = useState<Section[]>([]);
+
+  // Load sections from localStorage on component mount
+  useEffect(() => {
+    const savedSections = localStorage.getItem('sections');
+    if (savedSections) {
+      console.log('Loaded sections from localStorage:', JSON.parse(savedSections)); // Debugging
+      setSections(JSON.parse(savedSections));
+    }
+  }, []);
+
+  // Save sections to localStorage whenever sections array changes
+  useEffect(() => {
+    if (sections.length > 0) {
+      console.log('Saving sections to localStorage:', sections); // Debugging
+      localStorage.setItem('sections', JSON.stringify(sections));
+    }
+  }, [sections]);
 
   const addSection = () => {
     setSections([
