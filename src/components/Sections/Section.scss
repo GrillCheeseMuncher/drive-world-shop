@@ -20,6 +20,28 @@
   transition: background-color 0.3s ease;
 }
 
+.add-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1b1b1b;
+  cursor: pointer;
+  border: 4px dashed #505050;
+  transition: background-color 0.3s ease;
+  width: calc(325px - 4px);
+  height: calc(220px - 4px);
+}
+
+.add-section:hover {
+  background-color: #242424;
+}
+
+.plus-icon {
+  font-size: 4rem;
+  color: white;
+  margin-bottom: 35px;
+}
+
 .sold,
 .offsale {
   background-color: rgba(120, 0, 0, 0.6);

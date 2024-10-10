@@ -117,110 +117,102 @@ const SectionManager: React.FC = () => {
   };
 
   return (
-    <div>
-      <button className="add-section-button" onClick={addSection}>
-        Add New Section
-      </button>
+    <div className="sections-grid">
+      {sections.map((section, index) => (
+        <div key={index} className={`section-container`}>
+          {/* Section content */}
+          <div className="menu">
+            <button className="menu-button">☰</button>
 
-      <div className="sections-grid">
-        {sections.map((section, index) => (
-          <div key={index} className={`section-container`}>
-            <div className="menu">
-              <button className="menu-button">☰</button>
+            <div className="menu-content">
+              <button className="close-button" onClick={() => removeSection(index)}>
+                Close
+              </button>
+              <button className="sold-button" onClick={() => markAsSold(index)}>
+                {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
+              </button>
+              <button className="offsale-button" onClick={() => markAsOffsale(index)}>
+                {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
+              </button>
 
-              <div className="menu-content">
-                <button className="close-button" onClick={() => removeSection(index)}>
-                  Close
+              <div className="count-controls">
+                <button
+                  onClick={() => {
+                    if (section.count > 1) {
+                      handleCountChange(index, section.count - 1);
+                    }
+                  }}
+                  disabled={section.count <= 1}
+                >
+                  -
                 </button>
-                <button className="sold-button" onClick={() => markAsSold(index)}>
-                  {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
-                </button>
-                <button className="offsale-button" onClick={() => markAsOffsale(index)}>
-                  {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
-                </button>
-
-                <div className="count-controls">
-                  <button
-                    onClick={() => {
-                      if (section.count > 1) {
-                        handleCountChange(index, section.count - 1);
-                      }
-                    }}
-                    disabled={section.count <= 1}
-                  >
-                    -
-                  </button>
-                  <span>{section.count}</span>
-                  <button onClick={() => handleCountChange(index, section.count + 1)}>+</button>
-                </div>
+                <span>{section.count}</span>
+                <button onClick={() => handleCountChange(index, section.count + 1)}>+</button>
               </div>
             </div>
-
-            <label className="image-upload">
-              {!section.image && <span className="plus-icon">+</span>}
-              <input type="file" accept="image/*" onChange={(e) => handleImageChange(e, index)} />
-              {section.image && (
-                <img src={section.image} alt="Uploaded" className="section-image" />
-              )}
-
-              {section.count > 1 && <div className="count-display">x{section.count}</div>}
-
-              <input
-                type="text"
-                value={section.text}
-                onChange={(e) => handleTextChange(e, index)}
-                placeholder="Car"
-                className="section-input"
-                style={{
-                  width: `${Math.max(100, section.text.length * 15)}px`,
-                  transition: 'width 0.3s ease',
-                }}
-              />
-            </label>
-
-            <div className="price-input-container">
-              <input
-                type="text"
-                value={section.customText}
-                onChange={(e) => handleCustomTextChange(e, index)}
-                placeholder="Price"
-                className="section-input price-input"
-                style={{
-                  width: `${Math.max(100, section.customText.length * 15)}px`,
-                  transition: 'width 0.3s ease',
-                }}
-              />
-
-              <div className="option-buttons">
-                {['PU', 'FM', 'FS'].map((option) => (
-                  <button
-                    key={option}
-                    className={`option-button ${
-                      section.selectedOption === option ? 'selected' : ''
-                    }`}
-                    onClick={() => handleOptionSelect(index, option)}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Show the Sold overlay only if the section isSold and isOffsale is false */}
-            {section.isSold && !section.isOffsale && (
-              <div className="sold">
-                <div className="sold-overlay">SOLD</div>
-              </div>
-            )}
-
-            {/* Show the Offsale overlay only if the section isOffsale and isSold is false */}
-            {section.isOffsale && !section.isSold && (
-              <div className="offsale">
-                <div className="offsale-overlay">OFFSALE</div>
-              </div>
-            )}
           </div>
-        ))}
+
+          <label className="image-upload">
+            {!section.image && <span className="plus-icon">+</span>}
+            <input type="file" accept="image/*" onChange={(e) => handleImageChange(e, index)} />
+            {section.image && <img src={section.image} alt="Uploaded" className="section-image" />}
+            {section.count > 1 && <div className="count-display">x{section.count}</div>}
+            <input
+              type="text"
+              value={section.text}
+              onChange={(e) => handleTextChange(e, index)}
+              placeholder="Car"
+              className="section-input"
+              style={{
+                width: `${Math.max(100, section.text.length * 15)}px`,
+                transition: 'width 0.3s ease',
+              }}
+            />
+          </label>
+
+          <div className="price-input-container">
+            <input
+              type="text"
+              value={section.customText}
+              onChange={(e) => handleCustomTextChange(e, index)}
+              placeholder="Price"
+              className="section-input price-input"
+              style={{
+                width: `${Math.max(100, section.customText.length * 15)}px`,
+                transition: 'width 0.3s ease',
+              }}
+            />
+
+            <div className="option-buttons">
+              {['PU', 'FM', 'FS'].map((option) => (
+                <button
+                  key={option}
+                  className={`option-button ${section.selectedOption === option ? 'selected' : ''}`}
+                  onClick={() => handleOptionSelect(index, option)}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {section.isSold && !section.isOffsale && (
+            <div className="sold">
+              <div className="sold-overlay">SOLD</div>
+            </div>
+          )}
+
+          {section.isOffsale && !section.isSold && (
+            <div className="offsale">
+              <div className="offsale-overlay">OFFSALE</div>
+            </div>
+          )}
+        </div>
+      ))}
+
+      {/* Add the Add New Section button styled like a section */}
+      <div className="section-container add-section" onClick={addSection}>
+        <div className="plus-icon">+</div>
       </div>
     </div>
   );
