@@ -13,12 +13,11 @@ interface Section {
 
 const SectionManager: React.FC = () => {
   const [sections, setSections] = useState<Section[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-  const [selectedSectionIndex, setSelectedSectionIndex] = useState<number | null>(null); // Track section for image selection
-  const [imageList, setImageList] = useState<string[]>([]); // List of images
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSectionIndex, setSelectedSectionIndex] = useState<number | null>(null);
+  const [imageList, setImageList] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  // Load sections from localStorage on component mount
   useEffect(() => {
     const savedSections = localStorage.getItem('sections');
     if (savedSections) {
@@ -27,7 +26,6 @@ const SectionManager: React.FC = () => {
     }
   }, []);
 
-  // Save sections to localStorage whenever sections array changes
   useEffect(() => {
     if (sections.length > 0) {
       console.log('Saving sections to localStorage:', sections);
@@ -153,7 +151,6 @@ const SectionManager: React.FC = () => {
     setImageList(images);
   }, []);
 
-  // Add new section
   const addSection = () => {
     setSections([
       ...sections,
@@ -169,7 +166,6 @@ const SectionManager: React.FC = () => {
     ]);
   };
 
-  // Remove a section
   const removeSection = (index: number) => {
     const newSections = sections.filter((_, i) => i !== index);
     setSections(newSections);
@@ -183,11 +179,11 @@ const SectionManager: React.FC = () => {
   const selectImage = (image: string) => {
     if (selectedSectionIndex !== null) {
       const newSections = [...sections];
-      newSections[selectedSectionIndex].image = image; // Use the selected image
-      newSections[selectedSectionIndex].text = image.split('/').pop()?.split('.')[0] || ''; // Set the image name as the text
+      newSections[selectedSectionIndex].image = image;
+      newSections[selectedSectionIndex].text = image.split('/').pop()?.split('.')[0] || '';
 
       setSections(newSections);
-      setIsModalOpen(false); // Close the modal
+      setIsModalOpen(false);
     }
   };
 
@@ -199,48 +195,42 @@ const SectionManager: React.FC = () => {
     image.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Toggle "Sold" status and unmark "Offsale" if marked
   const markAsSold = (index: number) => {
     const newSections = [...sections];
     newSections[index].isSold = !newSections[index].isSold;
     if (newSections[index].isSold) {
-      newSections[index].isOffsale = false; // Unmark Offsale when marked as Sold
+      newSections[index].isOffsale = false;
     }
     setSections(newSections);
   };
 
-  // Toggle "Offsale" status and unmark "Sold" if marked
   const markAsOffsale = (index: number) => {
     const newSections = [...sections];
     newSections[index].isOffsale = !newSections[index].isOffsale;
     if (newSections[index].isOffsale) {
-      newSections[index].isSold = false; // Unmark Sold when marked as Offsale
+      newSections[index].isSold = false;
     }
     setSections(newSections);
   };
 
-  // Handle text input change
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSections = [...sections];
     newSections[index].text = e.target.value;
     setSections(newSections);
   };
 
-  // Handle custom text input change
   const handleCustomTextChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSections = [...sections];
     newSections[index].customText = e.target.value;
     setSections(newSections);
   };
 
-  // Handle count change
   const handleCountChange = (index: number, newCount: number) => {
     const newSections = [...sections];
     newSections[index].count = newCount;
     setSections(newSections);
   };
 
-  // Handle option selection
   const handleOptionSelect = (index: number, option: string) => {
     const newSections = [...sections];
     newSections[index].selectedOption = option;
@@ -251,7 +241,6 @@ const SectionManager: React.FC = () => {
     <div className="sections-grid">
       {sections.map((section, index) => (
         <div key={index} className={`section-container`}>
-          {/* Section content */}
           <div className="menu">
             <button className="menu-button">☰</button>
 
@@ -294,7 +283,7 @@ const SectionManager: React.FC = () => {
               placeholder="Car"
               className="section-input"
               style={{
-                width: `${Math.max(100, section.text.length * 16)}px`,
+                width: `${Math.max(100, section.text.length * 15)}px`,
                 transition: 'width 0.3s ease',
               }}
             />
@@ -370,7 +359,6 @@ const SectionManager: React.FC = () => {
         </div>
       )}
 
-      {/* Add the Add New Section button styled like a section */}
       <div className="section-container add-section" onClick={addSection}>
         <div className="plus-icon">+</div>
       </div>
