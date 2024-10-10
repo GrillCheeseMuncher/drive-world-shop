@@ -294,7 +294,7 @@ const SectionManager: React.FC = () => {
               placeholder="Car"
               className="section-input"
               style={{
-                width: `${Math.max(100, section.text.length * 15)}px`,
+                width: `${Math.max(100, section.text.length * 16)}px`,
                 transition: 'width 0.3s ease',
               }}
             />
@@ -343,13 +343,18 @@ const SectionManager: React.FC = () => {
       {isModalOpen && (
         <div className="image-modal">
           <div className="modal-content">
-            <input
-              type="text"
-              placeholder="Search for images..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="search-input"
-            />
+            <div className="modal-search-container">
+              <input
+                type="text"
+                placeholder="Search for images..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="search-input"
+              />
+              <button onClick={() => setIsModalOpen(false)} className="close-modal">
+                Close
+              </button>
+            </div>
             <div className="image-grid">
               {filteredImages.map((image, i) => (
                 <img
@@ -361,9 +366,6 @@ const SectionManager: React.FC = () => {
                 />
               ))}
             </div>
-            <button onClick={() => setIsModalOpen(false)} className="close-modal">
-              Close
-            </button>
           </div>
         </div>
       )}
