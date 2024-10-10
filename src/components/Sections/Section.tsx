@@ -306,7 +306,11 @@ const SectionManager: React.FC = () => {
               placeholder="Car"
               className="section-input"
               style={{
-                width: `${Math.max(100, section.text.length * 15)}px`,
+                width: `${
+                  section.text.length <= 15
+                    ? Math.max(100, section.text.length * 16)
+                    : Math.max(100, section.text.length * 14)
+                }px`,
                 transition: 'width 0.3s ease',
               }}
             />
