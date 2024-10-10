@@ -16,7 +16,7 @@
   border-radius: 10px;
   position: relative;
   width: 325px;
-  height: 220px;
+  height: 235px;
   transition: background-color 0.3s ease;
 }
 
@@ -29,7 +29,7 @@
   border: 4px dashed #505050;
   transition: background-color 0.3s ease;
   width: calc(325px - 4px);
-  height: calc(220px - 4px);
+  height: calc(235px - 4px);
 }
 
 .add-section:hover {
