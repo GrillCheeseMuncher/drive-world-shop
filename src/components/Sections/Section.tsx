@@ -6,6 +6,7 @@ interface Section {
   text: string;
   customText: string;
   isSold: boolean;
+  isOffsale: boolean;
   selectedOption: string;
   count: number;
 }
@@ -17,7 +18,7 @@ const SectionManager: React.FC = () => {
   useEffect(() => {
     const savedSections = localStorage.getItem('sections');
     if (savedSections) {
-      console.log('Loaded sections from localStorage:', JSON.parse(savedSections)); // Debugging
+      console.log('Loaded sections from localStorage:', JSON.parse(savedSections));
       setSections(JSON.parse(savedSections));
     }
   }, []);
@@ -25,11 +26,12 @@ const SectionManager: React.FC = () => {
   // Save sections to localStorage whenever sections array changes
   useEffect(() => {
     if (sections.length > 0) {
-      console.log('Saving sections to localStorage:', sections); // Debugging
+      console.log('Saving sections to localStorage:', sections);
       localStorage.setItem('sections', JSON.stringify(sections));
     }
   }, [sections]);
 
+  // Add new section
   const addSection = () => {
     setSections([
       ...sections,
@@ -38,23 +40,40 @@ const SectionManager: React.FC = () => {
         text: '',
         customText: '',
         isSold: false,
+        isOffsale: false,
         selectedOption: '',
         count: 1,
       },
     ]);
   };
 
+  // Remove a section
   const removeSection = (index: number) => {
     const newSections = sections.filter((_, i) => i !== index);
     setSections(newSections);
   };
 
+  // Toggle "Sold" status and unmark "Offsale" if marked
   const markAsSold = (index: number) => {
     const newSections = [...sections];
     newSections[index].isSold = !newSections[index].isSold;
+    if (newSections[index].isSold) {
+      newSections[index].isOffsale = false; // Unmark Offsale when marked as Sold
+    }
     setSections(newSections);
   };
 
+  // Toggle "Offsale" status and unmark "Sold" if marked
+  const markAsOffsale = (index: number) => {
+    const newSections = [...sections];
+    newSections[index].isOffsale = !newSections[index].isOffsale;
+    if (newSections[index].isOffsale) {
+      newSections[index].isSold = false; // Unmark Sold when marked as Offsale
+    }
+    setSections(newSections);
+  };
+
+  // Handle image change
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const files = e.target.files;
     if (files && files[0]) {
@@ -69,24 +88,28 @@ const SectionManager: React.FC = () => {
     }
   };
 
+  // Handle text input change
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSections = [...sections];
     newSections[index].text = e.target.value;
     setSections(newSections);
   };
 
+  // Handle custom text input change
   const handleCustomTextChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSections = [...sections];
     newSections[index].customText = e.target.value;
     setSections(newSections);
   };
 
+  // Handle count change
   const handleCountChange = (index: number, newCount: number) => {
     const newSections = [...sections];
     newSections[index].count = newCount;
     setSections(newSections);
   };
 
+  // Handle option selection
   const handleOptionSelect = (index: number, option: string) => {
     const newSections = [...sections];
     newSections[index].selectedOption = option;
@@ -111,6 +134,9 @@ const SectionManager: React.FC = () => {
                 </button>
                 <button className="sold-button" onClick={() => markAsSold(index)}>
                   {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
+                </button>
+                <button className="offsale-button" onClick={() => markAsOffsale(index)}>
+                  {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
                 </button>
 
                 <div className="count-controls">
@@ -180,9 +206,17 @@ const SectionManager: React.FC = () => {
               </div>
             </div>
 
-            {section.isSold && (
+            {/* Show the Sold overlay only if the section isSold and isOffsale is false */}
+            {section.isSold && !section.isOffsale && (
               <div className="sold">
                 <div className="sold-overlay">SOLD</div>
+              </div>
+            )}
+
+            {/* Show the Offsale overlay only if the section isOffsale and isSold is false */}
+            {section.isOffsale && !section.isSold && (
+              <div className="offsale">
+                <div className="offsale-overlay">OFFSALE</div>
               </div>
             )}
           </div>

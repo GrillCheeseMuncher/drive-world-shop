@@ -20,7 +20,8 @@
   transition: background-color 0.3s ease;
 }
 
-.sold {
+.sold,
+.offsale {
   background-color: rgba(120, 0, 0, 0.6);
   position: absolute;
   top: 0;
@@ -30,7 +31,12 @@
   border-radius: 10px;
 }
 
-.sold-overlay {
+.offsale {
+  background-color: rgba(255, 115, 0, 0.6);
+}
+
+.sold-overlay,
+.offsale-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -138,7 +144,7 @@
   background-color: #2b2b2b;
   padding: 5px;
   border-radius: 5px;
-  width: 120px;
+  width: 135px;
   z-index: 15;
 }
 
@@ -148,7 +154,8 @@
 }
 
 .close-button,
-.sold-button {
+.sold-button,
+.offsale-button {
   background-color: #e74c3c;
   color: white;
   border: none;
@@ -161,6 +168,10 @@
 
 .sold-button {
   background-color: #3498db;
+}
+
+.offsale-button {
+  background-color: #ff7d27;
 }
 
 .text-inputs-container {
