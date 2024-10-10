@@ -44,7 +44,7 @@
 
 .sold,
 .offsale {
-  background-color: rgba(120, 0, 0, 0.6);
+  background-color: rgba(120, 0, 0, 0.5);
   position: absolute;
   top: 0;
   z-index: 5;
@@ -54,7 +54,7 @@
 }
 
 .offsale {
-  background-color: rgba(255, 115, 0, 0.6);
+  background-color: rgba(199, 90, 0, 0.5);
 }
 
 .sold-overlay,
@@ -66,7 +66,6 @@
   color: white;
   font-size: 4rem;
   font-weight: bold;
-  opacity: 0.8;
 }
 
 .image-upload {
