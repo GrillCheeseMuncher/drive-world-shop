@@ -20,6 +20,10 @@
   transition: background-color 0.3s ease;
 }
 
+.section-soldoffsale {
+  transform: scale(90%);
+}
+
 .add-section {
   display: flex;
   align-items: center;
@@ -46,10 +50,10 @@
 .offsale {
   background-color: rgba(120, 0, 0, 0.5);
   position: absolute;
-  top: 0;
+  top: -2px;
   z-index: 5;
-  width: 100%;
-  height: 100%;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
   border-radius: 10px;
 }
 

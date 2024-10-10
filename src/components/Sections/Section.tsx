@@ -263,7 +263,12 @@ const SectionManager: React.FC = () => {
   return (
     <div className="sections-grid">
       {sections.map((section, index) => (
-        <div key={index} className={`section-container`}>
+        <div
+          key={index}
+          className={`section-container ${
+            section.isSold || section.isOffsale ? ' section-soldoffsale' : ''
+          }`}
+        >
           <div className="menu">
             <button className="menu-button">☰</button>
 
