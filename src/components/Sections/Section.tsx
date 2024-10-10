@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Section.scss';
+import './SectionManager.scss';
 
 interface Section {
   image: string;
@@ -13,6 +13,10 @@ interface Section {
 
 const SectionManager: React.FC = () => {
   const [sections, setSections] = useState<Section[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+  const [selectedSectionIndex, setSelectedSectionIndex] = useState<number | null>(null); // Track section for image selection
+  const [imageList, setImageList] = useState<string[]>([]); // List of images
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   // Load sections from localStorage on component mount
   useEffect(() => {
@@ -30,6 +34,124 @@ const SectionManager: React.FC = () => {
       localStorage.setItem('sections', JSON.stringify(sections));
     }
   }, [sections]);
+
+  useEffect(() => {
+    const images = [
+      'images/390 Xtreme.png',
+      'images/Akuma Rally.png',
+      'images/Altus 441 RS.png',
+      'images/Apex GTR.png',
+      'images/Apex Xtreme.png',
+      'images/Arcane Evo.png',
+      'images/Ardente GTR.png',
+      'images/Avenger 7400.png',
+      'images/Badger.png',
+      'images/Bavette.png',
+      'images/Bavette Evo.png',
+      'images/Blip GT.png',
+      'images/BloxOne.png',
+      'images/Bloxymobile.png',
+      'images/Boatmobile.png',
+      'images/Buck Rally.png',
+      'images/Buggy.png',
+      'images/Bullet.png',
+      'images/Buzzard.png',
+      'images/Camo Freedom.png',
+      'images/Camo Stock.png',
+      'images/Casper TRC.png',
+      'images/Century X.png',
+      'images/Coach.png',
+      'images/Comet E-X.png',
+      'images/Contender 6x6.png',
+      'images/Contender HT.png',
+      'images/Costello RT.png',
+      'images/Crescendo.png',
+      'images/Cutter Xtreme.png',
+      'images/Cyclone GTRS.png',
+      'images/D-16.png',
+      'images/Dallara DW12.png',
+      'images/Diavolo.png',
+      'images/Diavolo Evo.png',
+      'images/DragPal.png',
+      'images/Drag Ranger.png',
+      'images/Edler.png',
+      'images/Epsilon Roadster.png',
+      'images/Femaris Widebody.png',
+      'images/Fury.png',
+      'images/Future Volition.png',
+      'images/Galano.png',
+      'images/Grant.png',
+      'images/Hammer EV 6x6.png',
+      'images/Haroku Xtreme.png',
+      'images/Hellion.png',
+      'images/Hooligan.png',
+      'images/Hooligan Beast.png',
+      'images/Hooligan Cyber.png',
+      'images/Hooligan Nimbus.png',
+      'images/Horizon Casanova.png',
+      'images/Horizon Xtreme.png',
+      'images/Inferno.png',
+      "images/Innovation '37.png",
+      'images/Jupiter GTR.png',
+      'images/Kar.png',
+      'images/Kronos Mason.png',
+      'images/LRC Xtreme.png',
+      'images/Luxor.png',
+      'images/Megabus.png',
+      'images/Meteor.png',
+      "images/Mixture 'Classic'.png",
+      'images/Modena.png',
+      'images/Mori15 Xtreme.png',
+      'images/Nexus 2.png',
+      'images/Nexus Xtreme.png',
+      'images/Nightline S34 Xtreme.png',
+      'images/Nightline S35 Xtreme.png',
+      'images/Odin 6x6.png',
+      'images/Orion Pax.png',
+      'images/Present Pal.png',
+      'images/Quicksilver.png',
+      'images/Race Pal.png',
+      'images/Rally Hunter.png',
+      'images/Rally RS.png',
+      'images/Rat Rod.png',
+      'images/Razor 2 Xtreme.png',
+      'images/Razor UTE Evo.png',
+      'images/Razor Xtreme.png',
+      'images/Regent.png',
+      'images/Rosso Widebody.png',
+      'images/Rotary Evo.png',
+      'images/Rotary Xtreme.png',
+      'images/Saxxon.png',
+      'images/Scimitar.png',
+      'images/Sideswipe RT.png',
+      'images/Sideswipe X.png',
+      'images/Sierra12 Evo.png',
+      'images/Silvio Evo.png',
+      'images/Solar Xtreme.png',
+      'images/Stallion Cabriolet.png',
+      'images/Stallion M Race.png',
+      'images/Stinger.png',
+      'images/Street Eagle.png',
+      'images/Summit Beast.png',
+      'images/Super4 Xtreme.png',
+      'images/Super5 Xtreme.png',
+      'images/The Patriot.png',
+      'images/Tiger1.png',
+      'images/Torakku Xtreme.png',
+      'images/Trek 390.png',
+      'images/Trex Beast.png',
+      'images/V10 RS Widebody.png',
+      'images/Vande Widebody.png',
+      'images/Vern.png',
+      'images/Viscount.png',
+      'images/Wagen 6x6.png',
+      'images/Zephyr Evo.png',
+      'images/ZeroOne R.png',
+      'images/Zeta Roadster.png',
+      'images/Zoomer.png',
+    ];
+    setImageList(images);
+  }, []);
 
   // Add new section
   const addSection = () => {
@@ -53,6 +175,30 @@ const SectionManager: React.FC = () => {
     setSections(newSections);
   };
 
+  const openImageModal = (index: number) => {
+    setSelectedSectionIndex(index);
+    setIsModalOpen(true);
+  };
+
+  const selectImage = (image: string) => {
+    if (selectedSectionIndex !== null) {
+      const newSections = [...sections];
+      newSections[selectedSectionIndex].image = image; // Use the selected image
+      newSections[selectedSectionIndex].text = image.split('/').pop()?.split('.')[0] || ''; // Set the image name as the text
+
+      setSections(newSections);
+      setIsModalOpen(false); // Close the modal
+    }
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredImages = imageList.filter((image) =>
+    image.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   // Toggle "Sold" status and unmark "Offsale" if marked
   const markAsSold = (index: number) => {
     const newSections = [...sections];
@@ -71,21 +217,6 @@ const SectionManager: React.FC = () => {
       newSections[index].isSold = false; // Unmark Sold when marked as Offsale
     }
     setSections(newSections);
-  };
-
-  // Handle image change
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const files = e.target.files;
-    if (files && files[0]) {
-      const file = files[0];
-      const fileNameWithoutExtension = file.name.split('.').slice(0, -1).join('.');
-
-      const newSections = [...sections];
-      newSections[index].image = URL.createObjectURL(file);
-      newSections[index].text = fileNameWithoutExtension;
-
-      setSections(newSections);
-    }
   };
 
   // Handle text input change
@@ -152,9 +283,8 @@ const SectionManager: React.FC = () => {
             </div>
           </div>
 
-          <label className="image-upload">
+          <label className="image-upload" onClick={() => openImageModal(index)}>
             {!section.image && <span className="plus-icon">+</span>}
-            <input type="file" accept="image/*" onChange={(e) => handleImageChange(e, index)} />
             {section.image && <img src={section.image} alt="Uploaded" className="section-image" />}
             {section.count > 1 && <div className="count-display">x{section.count}</div>}
             <input
@@ -209,6 +339,34 @@ const SectionManager: React.FC = () => {
           )}
         </div>
       ))}
+
+      {isModalOpen && (
+        <div className="image-modal">
+          <div className="modal-content">
+            <input
+              type="text"
+              placeholder="Search for images..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="search-input"
+            />
+            <div className="image-grid">
+              {filteredImages.map((image, i) => (
+                <img
+                  key={i}
+                  src={`/${image}`}
+                  alt="thumbnail"
+                  className="image-thumb"
+                  onClick={() => selectImage(image)}
+                />
+              ))}
+            </div>
+            <button onClick={() => setIsModalOpen(false)} className="close-modal">
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Add the Add New Section button styled like a section */}
       <div className="section-container add-section" onClick={addSection}>
