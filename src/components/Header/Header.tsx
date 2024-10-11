@@ -32,10 +32,12 @@ export const Header = ({ currentlistid, handleclick }: HeaderProps) => {
     );
   });
 
+  const headerTitle = currentlistid === 0 ? "TheSniezek's Archive" : "TheSniezek's Shop";
+
   return (
     <div className="header-container">
       <div className="header-content-container">
-        <div className="header-title">TheSniezek's Shop</div>
+        <div className="header-title">{headerTitle}</div>
         <div className="buttons-container">{list}</div>
       </div>
     </div>
