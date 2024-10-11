@@ -10,6 +10,8 @@ export interface Section {
   isSold: boolean;
   isOffsale: boolean;
   isArchived: boolean;
+  isDesc: boolean;
+  isOffer: boolean;
   selectedOption: string;
   count: number;
 }
@@ -189,6 +191,8 @@ const SectionManager: React.FC = () => {
         isSold: false,
         isOffsale: false,
         isArchived: false,
+        isDesc: false,
+        isOffer: false,
         selectedOption: '',
         count: 1,
       },
@@ -215,6 +219,12 @@ const SectionManager: React.FC = () => {
     if (newSections[index].isOffsale) {
       newSections[index].isSold = false;
     }
+    setSections(newSections);
+  };
+
+  const markAsOffer = (index: number) => {
+    const newSections = [...sections];
+    newSections[index].isOffer = !newSections[index].isOffer;
     setSections(newSections);
   };
 
@@ -321,6 +331,9 @@ const SectionManager: React.FC = () => {
                   <button className="offsale-button" onClick={() => markAsOffsale(index)}>
                     {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
                   </button>
+                  <button className="offer-button" onClick={() => markAsOffer(index)}>
+                    {section.isOffer ? 'Unmark as Offer' : 'Mark as Offer'}
+                  </button>
                   <button className="close-button" onClick={() => removeSection(index)}>
                     Close
                   </button>
@@ -351,12 +364,16 @@ const SectionManager: React.FC = () => {
               </label>
 
               <div className="price-input-container">
+                {section.customText.length > 0 && section.isOffer && (
+                  <div className="price-current-offer">Current Offer</div>
+                )}
+
                 <input
                   type="text"
                   value={section.customText}
                   onChange={(e) => handleCustomTextChange(e, index)}
-                  placeholder="Price"
-                  className="section-input price-input"
+                  placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
+                  className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
                 />
 
                 <div className="option-buttons">

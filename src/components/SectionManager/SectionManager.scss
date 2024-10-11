@@ -55,13 +55,15 @@
         background-color: #2b2b2b;
         padding: 5px;
         border-radius: 5px;
-        width: 135px;
+        width: 155px;
         z-index: 15;
 
         .close-button,
         .sold-button,
         .offsale-button,
-        .archive-button {
+        .archive-button,
+        .desc-button,
+        .offer-button {
           color: white;
           border: none;
           border-radius: 5px;
@@ -86,6 +88,14 @@
 
         .offsale-button {
           background-color: #ff7d27;
+        }
+
+        .desc-button {
+          background-color: #00cf91;
+        }
+
+        .offer-button {
+          background-color: #bdb326;
         }
 
         .count-controls {
@@ -186,17 +196,41 @@
       align-items: center;
       width: 100%;
       margin-top: 5px;
+      position: relative;
+
+      .price-current-offer {
+        position: absolute;
+        padding: 0 5.5px;
+        left: 0px;
+        bottom: -20px;
+        font-size: 1.5rem;
+        font-weight: 600;
+        z-index: 5;
+        color: #e75c00;
+        background-color: #e49400;
+        border-radius: 5px;
+        border: 2px dashed #e75c00;
+        border-top: none;
+      }
 
       .price-input {
         flex: 1;
         position: relative;
         margin-top: 10px;
         width: 100%;
-        background-color: rgba(80, 80, 80, 0);
         font-size: 2rem;
         border: 2px dashed #2b2b2b;
         background-color: #3a3a3a;
         left: 0;
+      }
+
+      .price-offer {
+        border: 2px dashed #e75c00;
+        background-color: #e49400;
+
+        &::placeholder {
+          color: #e75c00;
+        }
       }
 
       .option-buttons {
