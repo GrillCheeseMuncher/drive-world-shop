@@ -14,11 +14,7 @@ export interface Section {
   count: number;
 }
 
-interface SectionManagerProps {
-  setArchivedSections: React.Dispatch<React.SetStateAction<Section[]>>;
-}
-
-const SectionManager: React.FC<SectionManagerProps> = ({ setArchivedSections }) => {
+const SectionManager: React.FC = () => {
   const [sections, setSections] = useState<Section[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSectionIndex, setSelectedSectionIndex] = useState<number | null>(null);
@@ -204,20 +200,6 @@ const SectionManager: React.FC<SectionManagerProps> = ({ setArchivedSections }) 
     setSections(newSections);
   };
 
-  const archiveSection = (index: number) => {
-    const sectionToArchive = sections[index];
-
-    // Update the archivedSections state
-    setArchivedSections((prevArchived) => [
-      ...prevArchived,
-      { ...sectionToArchive, isArchive: true },
-    ]);
-
-    // Remove from current sections
-    const newSections = sections.filter((_, i) => i !== index);
-    setSections(newSections);
-  };
-
   const markAsSold = (index: number) => {
     const newSections = [...sections];
     newSections[index].isSold = !newSections[index].isSold;
@@ -338,9 +320,6 @@ const SectionManager: React.FC<SectionManagerProps> = ({ setArchivedSections }) 
                   </button>
                   <button className="offsale-button" onClick={() => markAsOffsale(index)}>
                     {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
-                  </button>
-                  <button className="archive-button" onClick={() => archiveSection(index)}>
-                    Archive
                   </button>
                   <button className="close-button" onClick={() => removeSection(index)}>
                     Close
