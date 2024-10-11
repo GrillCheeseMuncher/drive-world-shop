@@ -24,6 +24,7 @@ export const Archive: React.FC<ArchiveProps> = ({ sections }) => {
       setArchivedSections(updatedSections);
       localStorage.setItem('archivedSections', JSON.stringify(updatedSections));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sections]);
 
   return (
