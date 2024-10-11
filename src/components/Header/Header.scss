@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #0f0f0f;
+  background-color: #181818;
 
   .header-content-container {
     width: 100%;
@@ -11,8 +11,8 @@
     justify-content: space-between;
 
     .header-title {
-      color: #ffffff;
-      font-size: 3rem;
+      color: #353535;
+      font-size: 6rem;
       font-weight: 600;
       font-family: Arial, Helvetica, sans-serif;
       margin: 1rem;
@@ -20,22 +20,35 @@
 
     .buttons-container {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 10px;
       margin-right: 20px;
 
       .header-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        list-style: none;
+        width: 150px;
+        font-size: 2rem;
         border: none;
         border-radius: 5px;
-        color: white;
-        height: 50%;
-        background-color: #505050;
+        color: #353535;
+        height: 40px;
+        background-color: #0f0f0f;
         font-weight: 600;
+        cursor: pointer;
+        padding-bottom: 5px;
 
         &:hover {
-          background-color: #474747;
+          background-color: #141414;
         }
+      }
+
+      .active {
+        color: #6ec79d;
       }
     }
   }
