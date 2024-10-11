@@ -5,8 +5,10 @@ interface Section {
   image: string;
   text: string;
   customText: string;
+  buyText: string;
   isSold: boolean;
   isOffsale: boolean;
+  isArchive: boolean;
   selectedOption: string;
   count: number;
 }
@@ -181,8 +183,10 @@ const SectionManager: React.FC = () => {
         image: '',
         text: '',
         customText: '',
+        buyText: '',
         isSold: false,
         isOffsale: false,
+        isArchive: false,
         selectedOption: '',
         count: 1,
       },
@@ -191,6 +195,29 @@ const SectionManager: React.FC = () => {
 
   const removeSection = (index: number) => {
     const newSections = sections.filter((_, i) => i !== index);
+    setSections(newSections);
+  };
+
+  const archiveSection = (index: number) => {
+    const newSections = [...sections];
+    newSections[index].isArchive = !newSections[index].isArchive;
+  };
+
+  const markAsSold = (index: number) => {
+    const newSections = [...sections];
+    newSections[index].isSold = !newSections[index].isSold;
+    if (newSections[index].isSold) {
+      newSections[index].isOffsale = false;
+    }
+    setSections(newSections);
+  };
+
+  const markAsOffsale = (index: number) => {
+    const newSections = [...sections];
+    newSections[index].isOffsale = !newSections[index].isOffsale;
+    if (newSections[index].isOffsale) {
+      newSections[index].isSold = false;
+    }
     setSections(newSections);
   };
 
@@ -218,24 +245,6 @@ const SectionManager: React.FC = () => {
     image.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const markAsSold = (index: number) => {
-    const newSections = [...sections];
-    newSections[index].isSold = !newSections[index].isSold;
-    if (newSections[index].isSold) {
-      newSections[index].isOffsale = false;
-    }
-    setSections(newSections);
-  };
-
-  const markAsOffsale = (index: number) => {
-    const newSections = [...sections];
-    newSections[index].isOffsale = !newSections[index].isOffsale;
-    if (newSections[index].isOffsale) {
-      newSections[index].isSold = false;
-    }
-    setSections(newSections);
-  };
-
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSections = [...sections];
     newSections[index].text = e.target.value;
@@ -245,6 +254,12 @@ const SectionManager: React.FC = () => {
   const handleCustomTextChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSections = [...sections];
     newSections[index].customText = e.target.value;
+    setSections(newSections);
+  };
+
+  const handleBuyTextChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const newSections = [...sections];
+    newSections[index].buyText = e.target.value;
     setSections(newSections);
   };
 
@@ -273,16 +288,6 @@ const SectionManager: React.FC = () => {
             <button className="menu-button">☰</button>
 
             <div className="menu-content">
-              <button className="close-button" onClick={() => removeSection(index)}>
-                Close
-              </button>
-              <button className="sold-button" onClick={() => markAsSold(index)}>
-                {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
-              </button>
-              <button className="offsale-button" onClick={() => markAsOffsale(index)}>
-                {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
-              </button>
-
               <div className="count-controls">
                 <button
                   onClick={() => {
@@ -291,12 +296,38 @@ const SectionManager: React.FC = () => {
                     }
                   }}
                   disabled={section.count <= 1}
+                  className="count-controls-button"
                 >
                   -
                 </button>
-                <span>{section.count}</span>
-                <button onClick={() => handleCountChange(index, section.count + 1)}>+</button>
+                <button
+                  onClick={() => handleCountChange(index, section.count + 1)}
+                  className="count-controls-button"
+                >
+                  +
+                </button>
               </div>
+
+              <input
+                type="text"
+                value={section.buyText}
+                onChange={(e) => handleBuyTextChange(e, index)}
+                placeholder="Price"
+                className="buy-price"
+              />
+
+              <button className="sold-button" onClick={() => markAsSold(index)}>
+                {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
+              </button>
+              <button className="offsale-button" onClick={() => markAsOffsale(index)}>
+                {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
+              </button>
+              <button className="archive-button" onClick={() => archiveSection(index)}>
+                Archive
+              </button>
+              <button className="close-button" onClick={() => removeSection(index)}>
+                Close
+              </button>
             </div>
           </div>
 
@@ -328,10 +359,6 @@ const SectionManager: React.FC = () => {
               onChange={(e) => handleCustomTextChange(e, index)}
               placeholder="Price"
               className="section-input price-input"
-              style={{
-                width: `${Math.max(100, section.customText.length * 15)}px`,
-                transition: 'width 0.3s ease',
-              }}
             />
 
             <div className="option-buttons">
