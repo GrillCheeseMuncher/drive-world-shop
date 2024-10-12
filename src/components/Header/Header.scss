@@ -9,46 +9,26 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .header-title {
-      color: #353535;
+      color: #444444;
       font-size: 6rem;
       font-weight: 600;
       font-family: Arial, Helvetica, sans-serif;
       margin: 1rem;
     }
 
-    .buttons-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-right: 20px;
+    .disclaimer {
+      text-align: right;
+      font-size: 1.2rem;
+      margin: 1rem;
+      font-weight: 600;
+      color: #444444;
 
-      .header-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        list-style: none;
-        width: 150px;
+      .disclaimer-title {
         font-size: 2rem;
-        border: none;
-        border-radius: 5px;
-        color: #353535;
-        height: 40px;
-        background-color: #0f0f0f;
-        font-weight: 600;
-        cursor: pointer;
-        padding-bottom: 5px;
-
-        &:hover {
-          background-color: #141414;
-        }
-      }
-
-      .active {
-        color: #6ec79d;
+        color: #ad0000;
       }
     }
   }
