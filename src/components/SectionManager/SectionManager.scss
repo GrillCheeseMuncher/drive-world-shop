@@ -5,7 +5,7 @@
   justify-items: center;
   padding: 20px;
 
-  .section-soldoffsale {
+  .section-overlay {
     transform: scale(95%);
   }
 
@@ -61,7 +61,7 @@
         .close-button,
         .sold-button,
         .offsale-button,
-        .archive-button,
+        .reserved-button,
         .desc-button,
         .offer-button {
           color: white;
@@ -78,7 +78,7 @@
           margin-bottom: 0;
         }
 
-        .archive-button {
+        .reserved-button {
           background-color: #7b2686;
         }
 
@@ -206,10 +206,10 @@
         font-size: 1.5rem;
         font-weight: 600;
         z-index: 5;
-        color: #e75c00;
-        background-color: #e49400;
+        color: #fff;
+        background-color: #3a3a3a;
         border-radius: 5px;
-        border: 2px dashed #e75c00;
+        border: 2px dashed #2b2b2b;
         border-top: none;
       }
 
@@ -225,12 +225,8 @@
       }
 
       .price-offer {
-        border: 2px dashed #e75c00;
-        background-color: #e49400;
-
-        &::placeholder {
-          color: #e75c00;
-        }
+        border: 2px dashed #2b2b2b;
+        background-color: #3a3a3a;
       }
 
       .option-buttons {
@@ -265,7 +261,8 @@
     }
 
     .sold,
-    .offsale {
+    .offsale,
+    .reserved {
       position: absolute;
       top: -2px;
       z-index: 5;
@@ -281,12 +278,17 @@
         background-color: rgba(120, 0, 0, 0.5);
       }
 
+      &.reserved {
+        background-color: rgba(66, 0, 120, 0.5);
+      }
+
       .sold-overlay,
-      .offsale-overlay {
+      .offsale-overlay,
+      .reserved-overlay {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%) rotate(-45deg);
+        transform: translate(-50%, -50%) rotate(-30deg);
         color: white;
         font-size: 4rem;
         font-weight: bold;

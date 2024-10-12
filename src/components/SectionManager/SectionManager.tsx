@@ -8,8 +8,8 @@ export interface Section {
   customText: string;
   buyText: string;
   isSold: boolean;
+  isReserv: boolean;
   isOffsale: boolean;
-  isArchived: boolean;
   isDesc: boolean;
   isOffer: boolean;
   selectedOption: string;
@@ -190,8 +190,8 @@ const SectionManager: React.FC = () => {
         customText: '',
         buyText: '',
         isSold: false,
+        isReserv: false,
         isOffsale: false,
-        isArchived: false,
         isDesc: false,
         isOffer: false,
         selectedOption: '',
@@ -210,6 +210,7 @@ const SectionManager: React.FC = () => {
     newSections[index].isSold = !newSections[index].isSold;
     if (newSections[index].isSold) {
       newSections[index].isOffsale = false;
+      newSections[index].isReserv = false;
     }
     setSections(newSections);
   };
@@ -219,6 +220,17 @@ const SectionManager: React.FC = () => {
     newSections[index].isOffsale = !newSections[index].isOffsale;
     if (newSections[index].isOffsale) {
       newSections[index].isSold = false;
+      newSections[index].isReserv = false;
+    }
+    setSections(newSections);
+  };
+
+  const markAsReserved = (index: number) => {
+    const newSections = [...sections];
+    newSections[index].isReserv = !newSections[index].isReserv;
+    if (newSections[index].isReserv) {
+      newSections[index].isSold = false;
+      newSections[index].isOffsale = false;
     }
     setSections(newSections);
   };
@@ -287,124 +299,133 @@ const SectionManager: React.FC = () => {
     <div className="sections-grid">
       {sections.map((section, index) => (
         <div>
-          {!section.isArchived && (
-            <div
-              key={index}
-              className={`section-container ${
-                section.isSold || section.isOffsale ? ' section-soldoffsale' : ''
-              } ${section.isArchived ? ' section-archived' : ''}`}
-            >
-              <div className="menu">
-                <button className="menu-button">☰</button>
+          <div
+            key={index}
+            className={`section-container ${
+              section.isSold || section.isOffsale || section.isReserv ? ' section-overlay' : ''
+            }`}
+          >
+            <div className="menu">
+              <button className="menu-button">☰</button>
 
-                <div className="menu-content">
-                  <div className="count-controls">
-                    <button
-                      onClick={() => {
-                        if (section.count > 1) {
-                          handleCountChange(index, section.count - 1);
-                        }
-                      }}
-                      disabled={section.count <= 1}
-                      className="count-controls-button"
-                    >
-                      -
-                    </button>
-                    <button
-                      onClick={() => handleCountChange(index, section.count + 1)}
-                      className="count-controls-button"
-                    >
-                      +
-                    </button>
-                  </div>
-
-                  <input
-                    type="text"
-                    value={section.buyText}
-                    onChange={(e) => handleBuyTextChange(e, index)}
-                    placeholder="Price"
-                    className="buy-price"
-                  />
-
-                  <button className="sold-button" onClick={() => markAsSold(index)}>
-                    {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
+              <div className="menu-content">
+                <div className="count-controls">
+                  <button
+                    onClick={() => {
+                      if (section.count > 1) {
+                        handleCountChange(index, section.count - 1);
+                      }
+                    }}
+                    disabled={section.count <= 1}
+                    className="count-controls-button"
+                  >
+                    -
                   </button>
-                  <button className="offsale-button" onClick={() => markAsOffsale(index)}>
-                    {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
-                  </button>
-                  <button className="offer-button" onClick={() => markAsOffer(index)}>
-                    {section.isOffer ? 'Unmark as Offer' : 'Mark as Offer'}
-                  </button>
-                  <button className="close-button" onClick={() => removeSection(index)}>
-                    Close
+                  <button
+                    onClick={() => handleCountChange(index, section.count + 1)}
+                    className="count-controls-button"
+                  >
+                    +
                   </button>
                 </div>
-              </div>
-
-              <label className="image-upload" onClick={() => openImageModal(index)}>
-                {!section.image && <span className="plus-icon">+</span>}
-                {section.image && (
-                  <img src={section.image} alt="Uploaded" className="section-image" />
-                )}
-                {section.count > 1 && <div className="count-display">x{section.count}</div>}
-                <input
-                  type="text"
-                  value={section.text}
-                  onChange={(e) => handleTextChange(e, index)}
-                  placeholder="Car"
-                  className="section-input"
-                  style={{
-                    width: `${
-                      section.text.length <= 15
-                        ? Math.max(100, section.text.length * 16)
-                        : Math.max(100, section.text.length * 14)
-                    }px`,
-                    transition: 'width 0.3s ease',
-                  }}
-                />
-              </label>
-
-              <div className="price-input-container">
-                {section.customText.length > 0 && section.isOffer && (
-                  <div className="price-current-offer">Current Offer</div>
-                )}
 
                 <input
                   type="text"
-                  value={section.customText}
-                  onChange={(e) => handleCustomTextChange(e, index)}
-                  placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
-                  className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
+                  value={section.buyText}
+                  onChange={(e) => handleBuyTextChange(e, index)}
+                  placeholder="Price"
+                  className="buy-price"
                 />
 
-                <div className="option-buttons">
-                  {['PU', 'FM', 'FS'].map((option) => (
-                    <button
-                      key={option}
-                      className={`option-button ${
-                        section.selectedOption === option ? 'selected' : ''
-                      }`}
-                      onClick={() => handleOptionSelect(index, option)}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
+                <button className="sold-button" onClick={() => markAsSold(index)}>
+                  {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
+                </button>
+                <button className="reserved-button" onClick={() => markAsReserved(index)}>
+                  {section.isSold ? 'Unmark as Reserved' : 'Mark as Reserved'}
+                </button>
+                <button className="offsale-button" onClick={() => markAsOffsale(index)}>
+                  {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
+                </button>
+                <button className="offer-button" onClick={() => markAsOffer(index)}>
+                  {section.isOffer ? 'Unmark as Offer' : 'Mark as Offer'}
+                </button>
+                <button className="close-button" onClick={() => removeSection(index)}>
+                  Close
+                </button>
               </div>
-
-              {section.isSold && !section.isOffsale && (
-                <div className="sold">
-                  <div className="sold-overlay">SOLD</div>
-                </div>
-              )}
-
-              {section.isOffsale && !section.isSold && (
-                <div className="offsale">
-                  <div className="offsale-overlay">OFFSALE</div>
-                </div>
-              )}
             </div>
-          )}
+
+            <label className="image-upload" onClick={() => openImageModal(index)}>
+              {!section.image && <span className="plus-icon">+</span>}
+              {section.image && (
+                <img src={section.image} alt="Uploaded" className="section-image" />
+              )}
+              {section.count > 1 && <div className="count-display">x{section.count}</div>}
+              <input
+                type="text"
+                value={section.text}
+                onChange={(e) => handleTextChange(e, index)}
+                placeholder="Car"
+                className="section-input"
+                style={{
+                  width: `${
+                    section.text.length <= 15
+                      ? Math.max(100, section.text.length * 16)
+                      : Math.max(100, section.text.length * 14)
+                  }px`,
+                  transition: 'width 0.3s ease',
+                }}
+              />
+            </label>
+
+            <div className="price-input-container">
+              {section.customText.length > 0 &&
+                section.isOffer &&
+                !section.isSold &&
+                !section.isOffsale &&
+                !section.isReserv && <div className="price-current-offer">Current Offer</div>}
+
+              <input
+                type="text"
+                value={section.customText}
+                onChange={(e) => handleCustomTextChange(e, index)}
+                placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
+                className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
+              />
+
+              <div className="option-buttons">
+                {['PU', 'FM', 'FS'].map((option) => (
+                  <button
+                    key={option}
+                    className={`option-button ${
+                      section.selectedOption === option ? 'selected' : ''
+                    }`}
+                    onClick={() => handleOptionSelect(index, option)}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {section.isSold && !section.isOffsale && !section.isReserv && (
+              <div className="sold">
+                <div className="sold-overlay">SOLD</div>
+              </div>
+            )}
+
+            {section.isOffsale && !section.isSold && !section.isReserv && (
+              <div className="offsale">
+                <div className="offsale-overlay">OFFSALE</div>
+              </div>
+            )}
+
+            {section.isReserv && !section.isSold && !section.isOffsale && (
+              <div className="reserved">
+                <div className="reserved-overlay">RESERVED</div>
+              </div>
+            )}
+          </div>
         </div>
       ))}
 
