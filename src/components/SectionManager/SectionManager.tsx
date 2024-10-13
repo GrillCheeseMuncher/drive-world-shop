@@ -41,6 +41,8 @@ const SectionManager: React.FC = () => {
   useEffect(() => {
     const images = [
       'images/390 Xtreme.png',
+      'images/Aero GT RS.png',
+      'images/AeroOne GTR.png',
       'images/Akuma Rally.png',
       'images/Altus 441 RS.png',
       'images/Apex GTR.png',
@@ -49,8 +51,7 @@ const SectionManager: React.FC = () => {
       'images/Arcane Evo.png',
       'images/Ardente GTR.png',
       'images/Avenger 7400.png',
-      'images/Aero GT RS.png',
-      'images/AeroOne GTR.png',
+      'images/Augusta.png',
       'images/B-127 Bumblebee.png',
       'images/Badger.png',
       'images/Bavette.png',
