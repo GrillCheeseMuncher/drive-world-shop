@@ -144,6 +144,7 @@ const SectionManager: React.FC = () => {
       'images/Rotary Xtreme.png',
       'images/Saxxon.png',
       'images/Scimitar.png',
+      'images/Scimitar Evo.png',
       'images/Sideswipe RT.png',
       'images/Sideswipe X.png',
       'images/Sierra12 Evo.png',
