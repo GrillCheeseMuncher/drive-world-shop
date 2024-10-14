@@ -72,6 +72,7 @@ const SectionManager: React.FC = () => {
       'images/Century X.png',
       'images/Cirrus 441 Rally.png',
       'images/Coach.png',
+      'images/Condor Xtreme.png',
       'images/CyberVolo.png',
       'images/Comet E-X.png',
       'images/Contender 6x6.png',
