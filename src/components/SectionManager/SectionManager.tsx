@@ -151,6 +151,7 @@ const SectionManager: React.FC = () => {
       'images/Sierra12 Evo.png',
       'images/Silvio Evo.png',
       'images/Solar Xtreme.png',
+      'images/Stallion Beast.png',
       'images/Stallion Cabriolet.png',
       'images/Stallion M Race.png',
       'images/Stinger.png',
@@ -304,7 +305,7 @@ const SectionManager: React.FC = () => {
         <div>
           <div
             key={index}
-            className={`section-container ${
+            className={`section-container ${index === 0 ? 'first-section' : ''} ${
               section.isSold || section.isOffsale || section.isReserv ? ' section-overlay' : ''
             }`}
           >
@@ -388,26 +389,28 @@ const SectionManager: React.FC = () => {
                 !section.isOffsale &&
                 !section.isReserv && <div className="price-current-offer">Current Offer</div>}
 
-              <input
-                type="text"
-                value={section.customText}
-                onChange={(e) => handleCustomTextChange(e, index)}
-                placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
-                className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
-              />
+              <div className="price-input-container-up">
+                <input
+                  type="text"
+                  value={section.customText}
+                  onChange={(e) => handleCustomTextChange(e, index)}
+                  placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
+                  className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
+                />
 
-              <div className="option-buttons">
-                {['PU', 'FM', 'FS'].map((option) => (
-                  <button
-                    key={option}
-                    className={`option-button ${
-                      section.selectedOption === option ? 'selected' : ''
-                    }`}
-                    onClick={() => handleOptionSelect(index, option)}
-                  >
-                    {option}
-                  </button>
-                ))}
+                <div className="option-buttons">
+                  {['PU', 'FM', 'FS'].map((option) => (
+                    <button
+                      key={option}
+                      className={`option-button ${
+                        section.selectedOption === option ? 'selected' : ''
+                      }`}
+                      onClick={() => handleOptionSelect(index, option)}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 

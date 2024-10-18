@@ -1,16 +1,17 @@
 .sections-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: auto auto auto auto auto;
   grid-gap: 10px;
   justify-items: center;
   padding: 20px;
 
-  .section-overlay {
-    transform: scale(95%);
+  .first-section {
+    grid-column: 1 / span 2 !important;
+    grid-row: 1 / span 2 !important;
   }
 
-  .section-archived {
-    display: none;
+  .section-overlay {
+    transform: scale(95%);
   }
 
   .section-container {
@@ -191,10 +192,13 @@
 
     .price-input-container {
       display: flex;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       width: 100%;
       margin-top: 5px;
       position: relative;
+      gap: 5px;
 
       .price-current-offer {
         position: absolute;
@@ -211,48 +215,53 @@
         border-top: none;
       }
 
-      .price-input {
-        flex: 1;
-        position: relative;
-        margin-top: 10px;
-        width: 100%;
-        font-size: 2rem;
-        border: 2px dashed #2b2b2b;
-        background-color: #3a3a3a;
-        left: 0;
-      }
-
-      .price-offer {
-        border: 2px dashed #2b2b2b;
-        background-color: #3a3a3a;
-      }
-
-      .option-buttons {
+      .price-input-container-up {
         display: flex;
-        justify-content: flex-end;
 
-        .option-button {
-          width: 50px;
-          height: 50px;
-          margin-left: 5px;
-          background-color: rgba(80, 80, 80, 0.8);
-          color: white;
-          border: none;
-          font-size: 1.2rem;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: background-color 0.3s, opacity 0.3s;
+        .price-input {
+          flex: 1;
+          position: relative;
+          margin-top: 10px;
+          width: 100%;
+          font-size: 2rem;
+          border: 2px dashed #2b2b2b;
+          background-color: #3a3a3a;
+          left: 0;
+        }
 
-          &.selected {
-            background-color: green;
-          }
+        .price-offer {
+          border: 2px dashed #2b2b2b;
+          background-color: #3a3a3a;
+        }
 
-          &:not(.selected) {
-            opacity: 0.6;
-          }
+        .option-buttons {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
 
-          &:hover {
-            opacity: 1;
+          .option-button {
+            width: 50px;
+            height: 50px;
+            margin-left: 5px;
+            background-color: rgba(80, 80, 80, 0.8);
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, opacity 0.3s;
+
+            &.selected {
+              background-color: green;
+            }
+
+            &:not(.selected) {
+              opacity: 0.6;
+            }
+
+            &:hover {
+              opacity: 1;
+            }
           }
         }
       }
