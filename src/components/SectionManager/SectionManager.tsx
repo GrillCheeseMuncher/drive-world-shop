@@ -119,6 +119,7 @@ const SectionManager: React.FC = () => {
       'images/LMP24.png',
       'images/LRC Xtreme.png',
       'images/Luxor.png',
+      'images/Mako Evo.png',
       'images/Megabus.png',
       'images/Meteor.png',
       'images/Mixture.png',
