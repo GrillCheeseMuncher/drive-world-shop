@@ -346,6 +346,19 @@ const SectionManager: React.FC = () => {
                   placeholder="Price"
                   className="buy-price"
                 />
+                <div className="option-buttons">
+                  {['PU', 'FM', 'FS'].map((option) => (
+                    <button
+                      key={option}
+                      className={`option-button ${
+                        section.selectedOption === option ? 'selected' : ''
+                      }`}
+                      onClick={() => handleOptionSelect(index, option)}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
 
                 <button className="sold-button" onClick={() => markAsSold(index)}>
                   {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
@@ -364,13 +377,16 @@ const SectionManager: React.FC = () => {
                 </button>
               </div>
             </div>
-
+            {section.count > 1 && (
+              <div className="count-display">
+                <span className="count-display-spec">x{section.count}</span>
+              </div>
+            )}
             <label className="image-upload" onClick={() => openImageModal(index)}>
               {!section.image && <span className="plus-icon">+</span>}
               {section.image && (
                 <img src={section.image} alt="Uploaded" className="section-image" />
               )}
-              {section.count > 1 && <div className="count-display">x{section.count}</div>}
               <input
                 type="text"
                 value={section.text}
@@ -387,6 +403,15 @@ const SectionManager: React.FC = () => {
                 }}
               />
             </label>
+            {(section.selectedOption === 'FS' ||
+              section.selectedOption === 'FM' ||
+              section.selectedOption === 'PU') && (
+              <div className="right-bottom-corner">
+                {section.selectedOption === 'FS' && <div className="right-corner-content">FS</div>}
+                {section.selectedOption === 'FM' && <div className="right-corner-content">FM</div>}
+                {section.selectedOption === 'PU' && <div className="right-corner-content">PU</div>}
+              </div>
+            )}
 
             <div className="price-input-container">
               {section.customText.length > 0 &&
@@ -403,20 +428,6 @@ const SectionManager: React.FC = () => {
                   placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
                   className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
                 />
-
-                <div className="option-buttons">
-                  {['PU', 'FM', 'FS'].map((option) => (
-                    <button
-                      key={option}
-                      className={`option-button ${
-                        section.selectedOption === option ? 'selected' : ''
-                      }`}
-                      onClick={() => handleOptionSelect(index, option)}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
               </div>
             </div>
 
