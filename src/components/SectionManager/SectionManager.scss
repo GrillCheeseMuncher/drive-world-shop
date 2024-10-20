@@ -1,7 +1,7 @@
 .sections-grid {
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
-  grid-gap: 10px;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 5px;
   justify-items: center;
   padding: 20px;
 
@@ -16,7 +16,6 @@
 
   .section-container {
     padding: 20px;
-    padding-bottom: 5px;
     border: 2px solid #2b2b2b;
     display: flex;
     flex-direction: column;
@@ -25,6 +24,33 @@
     border-radius: 10px;
     position: relative;
     transition: background-color 0.3s ease;
+
+    .image-upload {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 420px;
+      height: 210px;
+      border: 2px dashed #2b2b2b;
+      cursor: pointer;
+      position: relative;
+      background-color: #3a3a3a;
+      border-radius: 10px;
+      overflow: hidden;
+
+      .plus-icon {
+        font-size: 40px;
+        color: white;
+        position: absolute;
+      }
+
+      .section-image {
+        width: 90%;
+        height: 90%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+    }
 
     .menu {
       position: absolute;
@@ -186,41 +212,13 @@
       }
     }
 
-    .image-upload {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 320px;
-      height: 160px;
-      border: 2px dashed #2b2b2b;
-      cursor: pointer;
-      position: relative;
-      background-color: #3a3a3a;
-      border-radius: 10px;
-      overflow: hidden;
-
-      .plus-icon {
-        font-size: 40px;
-        color: white;
-        position: absolute;
-      }
-
-      .section-image {
-        width: 90%;
-        height: 90%;
-        object-fit: cover;
-        border-radius: 10px;
-      }
-    }
-
     .section-input {
       position: absolute;
-      bottom: 5px;
-      left: 5px;
+      right: 63px;
       white-space: nowrap;
       font-size: 1.7rem;
       text-align: left;
-      background-color: rgba(10, 10, 10, 0.5);
+      background-color: rgba(10, 10, 10, 0.75);
       border: none;
       color: white;
       padding: 5px;
@@ -229,72 +227,56 @@
       transition: width 0.2s;
       overflow: hidden;
       text-align: center;
-      margin-left: 10px;
+      margin-left: 5px;
     }
 
-    .price-input-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      margin-top: 5px;
-      position: relative;
-      gap: 5px;
+    .name-input {
+      bottom: 5px;
+    }
 
-      .price-current-offer {
-        position: absolute;
-        padding: 0 5.5px;
-        left: 0px;
-        bottom: -20px;
-        font-size: 1.5rem;
-        font-weight: 600;
-        z-index: 5;
-        color: #fff;
-        background-color: #3a3a3a;
-        border-radius: 5px;
-        border: 2px dashed #2b2b2b;
-        border-top: none;
-      }
+    .price-current-offer {
+      position: absolute;
+      padding: 0 5.5px;
+      left: 0px;
+      bottom: -20px;
+      font-size: 1.5rem;
+      font-weight: 600;
+      z-index: 5;
+      color: #fff;
+      background-color: #3a3a3a;
+      border-radius: 5px;
+      border: 2px dashed #2b2b2b;
+      border-top: none;
+    }
 
-      .price-input-container-up {
-        display: flex;
+    .price-input {
+      bottom: 52px;
+    }
 
-        .price-input {
-          flex: 1;
-          position: relative;
-          margin-top: 10px;
-          width: 100%;
-          font-size: 2rem;
-          border: 2px dashed #2b2b2b;
-          background-color: #3a3a3a;
-          left: 0;
-          margin-left: 0;
-        }
-
-        .price-offer {
-          border: 2px dashed #2b2b2b;
-          background-color: #3a3a3a;
-        }
-      }
+    .price-offer {
+      border: 2px dashed #2b2b2b;
+      background-color: #3a3a3a;
     }
 
     .right-bottom-corner {
       position: absolute;
-      bottom: 65px;
-      left: -15px;
-      background-color: green;
+      bottom: 12px;
+      right: 18px;
+      background-color: rgba(0, 128, 0, 0.6);
       color: white;
       padding: 10px;
-      border-radius: 50px;
+      border-radius: 5px;
       font-size: 2rem;
       z-index: 4;
       transform: scale(75%);
     }
 
     .right-corner-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 50px;
-      height: 50px;
+      height: 100px;
       font-weight: bold;
     }
 

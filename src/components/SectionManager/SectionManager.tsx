@@ -391,13 +391,37 @@ const SectionManager: React.FC = () => {
                 type="text"
                 value={section.text}
                 onChange={(e) => handleTextChange(e, index)}
+                onClick={(e) => e.stopPropagation()}
                 placeholder="Car"
-                className="section-input"
+                className="section-input name-input"
                 style={{
                   width: `${
                     section.text.length <= 15
                       ? Math.max(100, section.text.length * 16)
                       : Math.max(100, section.text.length * 14)
+                  }px`,
+                  transition: 'width 0.3s ease',
+                }}
+              />
+
+              {section.customText.length > 0 &&
+                section.isOffer &&
+                !section.isSold &&
+                !section.isOffsale &&
+                !section.isReserv && <div className="price-current-offer">Current Offer</div>}
+
+              <input
+                type="text"
+                value={section.customText}
+                onChange={(e) => handleCustomTextChange(e, index)}
+                onClick={(e) => e.stopPropagation()}
+                placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
+                className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
+                style={{
+                  width: `${
+                    section.text.length <= 15
+                      ? Math.max(100, section.customText.length * 16)
+                      : Math.max(100, section.customText.length * 14)
                   }px`,
                   transition: 'width 0.3s ease',
                 }}
@@ -412,24 +436,6 @@ const SectionManager: React.FC = () => {
                 {section.selectedOption === 'PU' && <div className="right-corner-content">PU</div>}
               </div>
             )}
-
-            <div className="price-input-container">
-              {section.customText.length > 0 &&
-                section.isOffer &&
-                !section.isSold &&
-                !section.isOffsale &&
-                !section.isReserv && <div className="price-current-offer">Current Offer</div>}
-
-              <div className="price-input-container-up">
-                <input
-                  type="text"
-                  value={section.customText}
-                  onChange={(e) => handleCustomTextChange(e, index)}
-                  placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
-                  className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
-                />
-              </div>
-            </div>
 
             {section.isSold && !section.isOffsale && !section.isReserv && (
               <div className="sold">
