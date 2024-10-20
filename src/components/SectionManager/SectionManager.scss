@@ -400,8 +400,8 @@
     cursor: pointer;
     border: 4px dashed #505050;
     transition: background-color 0.3s ease;
-    width: calc(325px - 4px);
-    height: calc(235px - 4px);
+    width: 420px;
+    height: 210px;
 
     &:hover {
       background-color: #242424;
