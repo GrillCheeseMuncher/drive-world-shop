@@ -1,3 +1,6 @@
+.tabs {
+}
+
 .sections-grid {
   display: grid;
   grid-template-columns: auto auto auto auto;
@@ -413,4 +416,12 @@
       margin-bottom: 35px;
     }
   }
+}
+
+.invisible-div {
+  visibility: hidden;
+  width: 420px;
+  height: 210px;
+  padding: 20px;
+  border: solid 4px;
 }

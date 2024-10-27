@@ -12,22 +12,32 @@ export interface Section {
   isOffsale: boolean;
   isDesc: boolean;
   isOffer: boolean;
+  isOnShelf: boolean;
   selectedOption: string;
   count: number;
 }
 
 const SectionManager: React.FC = () => {
   const [sections, setSections] = useState<Section[]>([]);
+  const [onShelfSections, setOnShelfSections] = useState<Section[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSectionIndex, setSelectedSectionIndex] = useState<number | null>(null);
   const [imageList, setImageList] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [activeTab, setActiveTab] = useState<'default' | 'shelf'>('default');
 
   useEffect(() => {
     const savedSections = localStorage.getItem('sections');
+    const savedOnShelfSections = localStorage.getItem('onShelfSections');
+
     if (savedSections) {
       console.log('Loaded sections from localStorage:', JSON.parse(savedSections));
       setSections(JSON.parse(savedSections));
+    }
+
+    if (savedOnShelfSections) {
+      console.log('Loaded on shelf sections from localStorage:', JSON.parse(savedOnShelfSections));
+      setOnShelfSections(JSON.parse(savedOnShelfSections));
     }
   }, []);
 
@@ -204,6 +214,7 @@ const SectionManager: React.FC = () => {
         isOffsale: false,
         isDesc: false,
         isOffer: false,
+        isOnShelf: false,
         selectedOption: '',
         count: 1,
       },
@@ -249,6 +260,24 @@ const SectionManager: React.FC = () => {
     const newSections = [...sections];
     newSections[index].isOffer = !newSections[index].isOffer;
     setSections(newSections);
+  };
+
+  const markAsOnShelf = (index: number) => {
+    const newSections = [...sections];
+    const sectionToShelf = newSections[index];
+
+    // Move to onShelfSections and remove from sections
+    setOnShelfSections([...onShelfSections, sectionToShelf]);
+    setSections(newSections.filter((_, i) => i !== index));
+  };
+
+  const markAsDefault = (index: number) => {
+    const newOnShelfSections = [...onShelfSections];
+    const sectionToDefault = newOnShelfSections[index];
+
+    // Move back to sections and remove from onShelfSections
+    setSections([...sections, sectionToDefault]);
+    setOnShelfSections(newOnShelfSections.filter((_, i) => i !== index));
   };
 
   const openImageModal = (index: number) => {
@@ -305,193 +334,415 @@ const SectionManager: React.FC = () => {
     setSections(newSections);
   };
 
-  return (
-    <div className="sections-grid">
-      {sections.map((section, index) => (
-        <div>
-          <div
-            key={index}
-            className={`section-container ${index === 0 ? 'first-section' : ''} ${
-              section.isSold || section.isOffsale || section.isReserv ? ' section-overlay' : ''
-            }`}
-          >
-            <div className="menu">
-              <button className="menu-button">☰</button>
+  const toggleOnShelf = (index: number) => {
+    const newSections = [...sections];
+    newSections[index].isOnShelf = !newSections[index].isOnShelf;
+    setSections(newSections);
+  };
 
-              <div className="menu-content">
-                <div className="count-controls">
-                  <button
-                    onClick={() => {
-                      if (section.count > 1) {
-                        handleCountChange(index, section.count - 1);
-                      }
+  const switchTab = (tab: 'default' | 'shelf') => {
+    setActiveTab(tab);
+  };
+
+  const getVisibleSections = () => {
+    return activeTab === 'shelf' ? onShelfSections : sections;
+  };
+
+  const getInvisibleDivs = () => {
+    const visibleSectionsCount = getVisibleSections().length;
+    const invisibleDivs = [];
+
+    if (visibleSectionsCount < 1) {
+      // Add 3 invisible divs if there are no sections
+      for (let i = 0; i < 3; i++) {
+        invisibleDivs.push(<div key={`invisible-${i}`} className="invisible-div"></div>);
+      }
+    } else if (visibleSectionsCount === 1) {
+      // Add 2 invisible divs if only 1 section
+      for (let i = 0; i < 2; i++) {
+        invisibleDivs.push(<div key={`invisible-${i}`} className="invisible-div"></div>);
+      }
+    } else if (visibleSectionsCount === 2) {
+      // Add 1 invisible div if only 2 sections
+      invisibleDivs.push(<div key="invisible-1" className="invisible-div"></div>);
+    }
+
+    // No invisible divs if 3 or more sections
+    return invisibleDivs;
+  };
+
+  return (
+    <>
+      <div className="tabs">
+        <button
+          onClick={() => switchTab('default')}
+          className={`tab ${activeTab === 'default' ? 'active' : ''}`}
+        >
+          Default Sections
+        </button>
+        <button
+          onClick={() => switchTab('shelf')}
+          className={activeTab === 'shelf' ? 'active' : ''}
+        >
+          On Shelf
+        </button>
+      </div>
+
+      <div className="sections-grid">
+        {activeTab === 'default' &&
+          sections.map((section, index) => (
+            <div>
+              <div
+                key={index}
+                className={`section-container ${index === 0 ? 'first-section' : ''} ${
+                  section.isSold || section.isOffsale || section.isReserv ? ' section-overlay' : ''
+                }`}
+              >
+                <div className="menu">
+                  <button className="menu-button">☰</button>
+
+                  <div className="menu-content">
+                    <div className="count-controls">
+                      <button
+                        onClick={() => {
+                          if (section.count > 1) {
+                            handleCountChange(index, section.count - 1);
+                          }
+                        }}
+                        disabled={section.count <= 1}
+                        className="count-controls-button"
+                      >
+                        -
+                      </button>
+                      <button
+                        onClick={() => handleCountChange(index, section.count + 1)}
+                        className="count-controls-button"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <input
+                      type="text"
+                      value={section.buyText}
+                      onChange={(e) => handleBuyTextChange(e, index)}
+                      placeholder="Price"
+                      className="buy-price"
+                    />
+                    <div className="option-buttons">
+                      {['PU', 'FM', 'FS'].map((option) => (
+                        <button
+                          key={option}
+                          className={`option-button ${
+                            section.selectedOption === option ? 'selected' : ''
+                          }`}
+                          onClick={() => handleOptionSelect(index, option)}
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </div>
+
+                    <button className="sold-button" onClick={() => markAsSold(index)}>
+                      {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
+                    </button>
+                    <button className="reserved-button" onClick={() => markAsReserved(index)}>
+                      {section.isSold ? 'Unmark as Reserved' : 'Mark as Reserved'}
+                    </button>
+                    <button className="offsale-button" onClick={() => markAsOffsale(index)}>
+                      {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
+                    </button>
+                    <button className="offer-button" onClick={() => markAsOffer(index)}>
+                      {section.isOffer ? 'Unmark as Offer' : 'Mark as Offer'}
+                    </button>
+                    <button onClick={() => markAsOnShelf(index)}>Move to On Shelf</button>
+                    <button className="close-button" onClick={() => removeSection(index)}>
+                      Close
+                    </button>
+                  </div>
+                </div>
+                {section.count > 1 && (
+                  <div className="count-display">
+                    <span className="count-display-spec">x{section.count}</span>
+                  </div>
+                )}
+                <label className="image-upload" onClick={() => openImageModal(index)}>
+                  {!section.image && <span className="plus-icon">+</span>}
+                  {section.image && (
+                    <img src={section.image} alt="Uploaded" className="section-image" />
+                  )}
+                  <input
+                    type="text"
+                    value={section.text}
+                    onChange={(e) => handleTextChange(e, index)}
+                    onClick={(e) => e.stopPropagation()}
+                    placeholder="Car"
+                    className="section-input name-input"
+                    style={{
+                      width: `${
+                        section.text.length <= 15
+                          ? Math.max(100, section.text.length * 16)
+                          : Math.max(100, section.text.length * 14)
+                      }px`,
+                      transition: 'width 0.3s ease',
                     }}
-                    disabled={section.count <= 1}
-                    className="count-controls-button"
-                  >
-                    -
+                  />
+
+                  {section.customText.length > 0 &&
+                    section.isOffer &&
+                    !section.isSold &&
+                    !section.isOffsale &&
+                    !section.isReserv && <div className="price-current-offer">Current Offer</div>}
+
+                  <input
+                    type="text"
+                    value={section.customText}
+                    onChange={(e) => handleCustomTextChange(e, index)}
+                    onClick={(e) => e.stopPropagation()}
+                    placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
+                    className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
+                    style={{
+                      width: `${
+                        section.text.length <= 15
+                          ? Math.max(100, section.customText.length * 16)
+                          : Math.max(100, section.customText.length * 14)
+                      }px`,
+                      transition: 'width 0.3s ease',
+                    }}
+                  />
+                </label>
+                {(section.selectedOption === 'FS' ||
+                  section.selectedOption === 'FM' ||
+                  section.selectedOption === 'PU') && (
+                  <div className="right-bottom-corner">
+                    {section.selectedOption === 'FS' && (
+                      <div className="right-corner-content">FS</div>
+                    )}
+                    {section.selectedOption === 'FM' && (
+                      <div className="right-corner-content">FM</div>
+                    )}
+                    {section.selectedOption === 'PU' && (
+                      <div className="right-corner-content">PU</div>
+                    )}
+                  </div>
+                )}
+
+                {section.isSold && !section.isOffsale && !section.isReserv && (
+                  <div className="sold">
+                    <div className="sold-overlay">SOLD</div>
+                  </div>
+                )}
+
+                {section.isOffsale && !section.isSold && !section.isReserv && (
+                  <div className="offsale">
+                    <div className="offsale-overlay">OFFSALE</div>
+                  </div>
+                )}
+
+                {section.isReserv && !section.isSold && !section.isOffsale && (
+                  <div className="reserved">
+                    <div className="reserved-overlay">RESERVED</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+
+        {activeTab === 'shelf' &&
+          onShelfSections.map((section, index) => (
+            <div
+              key={index}
+              className={`section-container ${
+                section.isSold || section.isOffsale || section.isReserv ? ' section-overlay' : ''
+              }`}
+            >
+              <div className="menu">
+                <button className="menu-button">☰</button>
+
+                <div className="menu-content">
+                  <div className="count-controls">
+                    <button
+                      onClick={() => {
+                        if (section.count > 1) {
+                          handleCountChange(index, section.count - 1);
+                        }
+                      }}
+                      disabled={section.count <= 1}
+                      className="count-controls-button"
+                    >
+                      -
+                    </button>
+                    <button
+                      onClick={() => handleCountChange(index, section.count + 1)}
+                      className="count-controls-button"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <input
+                    type="text"
+                    value={section.buyText}
+                    onChange={(e) => handleBuyTextChange(e, index)}
+                    placeholder="Price"
+                    className="buy-price"
+                  />
+                  <div className="option-buttons">
+                    {['PU', 'FM', 'FS'].map((option) => (
+                      <button
+                        key={option}
+                        className={`option-button ${
+                          section.selectedOption === option ? 'selected' : ''
+                        }`}
+                        onClick={() => handleOptionSelect(index, option)}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button className="sold-button" onClick={() => markAsSold(index)}>
+                    {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
                   </button>
-                  <button
-                    onClick={() => handleCountChange(index, section.count + 1)}
-                    className="count-controls-button"
-                  >
-                    +
+                  <button className="reserved-button" onClick={() => markAsReserved(index)}>
+                    {section.isSold ? 'Unmark as Reserved' : 'Mark as Reserved'}
+                  </button>
+                  <button className="offsale-button" onClick={() => markAsOffsale(index)}>
+                    {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
+                  </button>
+                  <button className="offer-button" onClick={() => markAsOffer(index)}>
+                    {section.isOffer ? 'Unmark as Offer' : 'Mark as Offer'}
+                  </button>
+                  <button onClick={() => markAsOnShelf(index)}>Move to On Shelf</button>
+                  <button className="close-button" onClick={() => removeSection(index)}>
+                    Close
                   </button>
                 </div>
+              </div>
+              {section.count > 1 && (
+                <div className="count-display">
+                  <span className="count-display-spec">x{section.count}</span>
+                </div>
+              )}
+              <label className="image-upload" onClick={() => openImageModal(index)}>
+                {!section.image && <span className="plus-icon">+</span>}
+                {section.image && (
+                  <img src={section.image} alt="Uploaded" className="section-image" />
+                )}
+                <input
+                  type="text"
+                  value={section.text}
+                  onChange={(e) => handleTextChange(e, index)}
+                  onClick={(e) => e.stopPropagation()}
+                  placeholder="Car"
+                  className="section-input name-input"
+                  style={{
+                    width: `${
+                      section.text.length <= 15
+                        ? Math.max(100, section.text.length * 16)
+                        : Math.max(100, section.text.length * 14)
+                    }px`,
+                    transition: 'width 0.3s ease',
+                  }}
+                />
+
+                {section.customText.length > 0 &&
+                  section.isOffer &&
+                  !section.isSold &&
+                  !section.isOffsale &&
+                  !section.isReserv && <div className="price-current-offer">Current Offer</div>}
 
                 <input
                   type="text"
-                  value={section.buyText}
-                  onChange={(e) => handleBuyTextChange(e, index)}
-                  placeholder="Price"
-                  className="buy-price"
+                  value={section.customText}
+                  onChange={(e) => handleCustomTextChange(e, index)}
+                  onClick={(e) => e.stopPropagation()}
+                  placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
+                  className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
+                  style={{
+                    width: `${
+                      section.text.length <= 15
+                        ? Math.max(100, section.customText.length * 16)
+                        : Math.max(100, section.customText.length * 14)
+                    }px`,
+                    transition: 'width 0.3s ease',
+                  }}
                 />
-                <div className="option-buttons">
-                  {['PU', 'FM', 'FS'].map((option) => (
-                    <button
-                      key={option}
-                      className={`option-button ${
-                        section.selectedOption === option ? 'selected' : ''
-                      }`}
-                      onClick={() => handleOptionSelect(index, option)}
-                    >
-                      {option}
-                    </button>
-                  ))}
+              </label>
+              {(section.selectedOption === 'FS' ||
+                section.selectedOption === 'FM' ||
+                section.selectedOption === 'PU') && (
+                <div className="right-bottom-corner">
+                  {section.selectedOption === 'FS' && (
+                    <div className="right-corner-content">FS</div>
+                  )}
+                  {section.selectedOption === 'FM' && (
+                    <div className="right-corner-content">FM</div>
+                  )}
+                  {section.selectedOption === 'PU' && (
+                    <div className="right-corner-content">PU</div>
+                  )}
                 </div>
+              )}
 
-                <button className="sold-button" onClick={() => markAsSold(index)}>
-                  {section.isSold ? 'Unmark as Sold' : 'Mark as Sold'}
-                </button>
-                <button className="reserved-button" onClick={() => markAsReserved(index)}>
-                  {section.isSold ? 'Unmark as Reserved' : 'Mark as Reserved'}
-                </button>
-                <button className="offsale-button" onClick={() => markAsOffsale(index)}>
-                  {section.isOffsale ? 'Unmark as Offsale' : 'Mark as Offsale'}
-                </button>
-                <button className="offer-button" onClick={() => markAsOffer(index)}>
-                  {section.isOffer ? 'Unmark as Offer' : 'Mark as Offer'}
-                </button>
-                <button className="close-button" onClick={() => removeSection(index)}>
+              {section.isSold && !section.isOffsale && !section.isReserv && (
+                <div className="sold">
+                  <div className="sold-overlay">SOLD</div>
+                </div>
+              )}
+
+              {section.isOffsale && !section.isSold && !section.isReserv && (
+                <div className="offsale">
+                  <div className="offsale-overlay">OFFSALE</div>
+                </div>
+              )}
+
+              {section.isReserv && !section.isSold && !section.isOffsale && (
+                <div className="reserved">
+                  <div className="reserved-overlay">RESERVED</div>
+                </div>
+              )}
+            </div>
+          ))}
+
+        {isModalOpen && (
+          <div className="image-modal">
+            <div className="modal-content">
+              <div className="modal-search-container">
+                <input
+                  type="text"
+                  placeholder="Search for images..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="search-input"
+                />
+                <button onClick={() => setIsModalOpen(false)} className="close-modal">
                   Close
                 </button>
               </div>
-            </div>
-            {section.count > 1 && (
-              <div className="count-display">
-                <span className="count-display-spec">x{section.count}</span>
+              <div className="image-grid">
+                {filteredImages.map((image, i) => (
+                  <img
+                    key={i}
+                    src={`/${image}`}
+                    alt="thumbnail"
+                    className="image-thumb"
+                    onClick={() => selectImage(image)}
+                  />
+                ))}
               </div>
-            )}
-            <label className="image-upload" onClick={() => openImageModal(index)}>
-              {!section.image && <span className="plus-icon">+</span>}
-              {section.image && (
-                <img src={section.image} alt="Uploaded" className="section-image" />
-              )}
-              <input
-                type="text"
-                value={section.text}
-                onChange={(e) => handleTextChange(e, index)}
-                onClick={(e) => e.stopPropagation()}
-                placeholder="Car"
-                className="section-input name-input"
-                style={{
-                  width: `${
-                    section.text.length <= 15
-                      ? Math.max(100, section.text.length * 16)
-                      : Math.max(100, section.text.length * 14)
-                  }px`,
-                  transition: 'width 0.3s ease',
-                }}
-              />
-
-              {section.customText.length > 0 &&
-                section.isOffer &&
-                !section.isSold &&
-                !section.isOffsale &&
-                !section.isReserv && <div className="price-current-offer">Current Offer</div>}
-
-              <input
-                type="text"
-                value={section.customText}
-                onChange={(e) => handleCustomTextChange(e, index)}
-                onClick={(e) => e.stopPropagation()}
-                placeholder={`${section.isOffer ? 'Offer' : 'Price'}`}
-                className={`section-input price-input ${section.isOffer ? 'price-offer' : ''}`}
-                style={{
-                  width: `${
-                    section.text.length <= 15
-                      ? Math.max(100, section.customText.length * 16)
-                      : Math.max(100, section.customText.length * 14)
-                  }px`,
-                  transition: 'width 0.3s ease',
-                }}
-              />
-            </label>
-            {(section.selectedOption === 'FS' ||
-              section.selectedOption === 'FM' ||
-              section.selectedOption === 'PU') && (
-              <div className="right-bottom-corner">
-                {section.selectedOption === 'FS' && <div className="right-corner-content">FS</div>}
-                {section.selectedOption === 'FM' && <div className="right-corner-content">FM</div>}
-                {section.selectedOption === 'PU' && <div className="right-corner-content">PU</div>}
-              </div>
-            )}
-
-            {section.isSold && !section.isOffsale && !section.isReserv && (
-              <div className="sold">
-                <div className="sold-overlay">SOLD</div>
-              </div>
-            )}
-
-            {section.isOffsale && !section.isSold && !section.isReserv && (
-              <div className="offsale">
-                <div className="offsale-overlay">OFFSALE</div>
-              </div>
-            )}
-
-            {section.isReserv && !section.isSold && !section.isOffsale && (
-              <div className="reserved">
-                <div className="reserved-overlay">RESERVED</div>
-              </div>
-            )}
-          </div>
-        </div>
-      ))}
-
-      {isModalOpen && (
-        <div className="image-modal">
-          <div className="modal-content">
-            <div className="modal-search-container">
-              <input
-                type="text"
-                placeholder="Search for images..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="search-input"
-              />
-              <button onClick={() => setIsModalOpen(false)} className="close-modal">
-                Close
-              </button>
-            </div>
-            <div className="image-grid">
-              {filteredImages.map((image, i) => (
-                <img
-                  key={i}
-                  src={`/${image}`}
-                  alt="thumbnail"
-                  className="image-thumb"
-                  onClick={() => selectImage(image)}
-                />
-              ))}
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <div className="section-container add-section" onClick={addSection}>
-        <div className="plus-icon">+</div>
+        {activeTab === 'default' && (
+          <div className="section-container add-section" onClick={addSection}>
+            <div className="plus-icon">+</div>
+          </div>
+        )}
+        {getInvisibleDivs()}
       </div>
-    </div>
+    </>
   );
 };
 
