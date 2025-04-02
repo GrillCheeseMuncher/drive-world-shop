@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #181818;
+  background-color: var(--main);
 
   .header-content-container {
     width: 100%;
@@ -12,7 +12,7 @@
     align-items: center;
 
     .header-title {
-      color: #444444;
+      color: var(--detail);
       font-size: 6rem;
       font-weight: 600;
       font-family: Arial, Helvetica, sans-serif;
@@ -21,13 +21,13 @@
 
     .disclaimer {
       text-align: right;
-      font-size: 1.2rem;
+      font-size: 2rem;
       margin: 1rem;
       font-weight: 600;
-      color: #444444;
+      color: var(--font);
 
       .disclaimer-title {
-        font-size: 2rem;
+        font-size: 4rem;
         color: #ad0000;
       }
     }
