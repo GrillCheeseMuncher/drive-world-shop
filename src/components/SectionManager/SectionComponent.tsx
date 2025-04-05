@@ -35,18 +35,17 @@ const SectionComponent: React.FC<SectionProps> = ({
     <div
       className={`section-container ${section.isSold || section.isReserv ? 'section-overlay' : ''}`}
     >
-      <Menu
-        index={index}
-        section={section}
-        markAsSold={markAsSold}
-        markAsReserved={markAsReserved}
-        markAsTV={markAsTV}
-        removeSection={removeSection}
-        handleCountChange={handleCountChange}
-        handleOptionSelect={handleOptionSelect}
-      />
-
       <div className="up-container">
+        <Menu
+          index={index}
+          section={section}
+          markAsSold={markAsSold}
+          markAsReserved={markAsReserved}
+          markAsTV={markAsTV}
+          removeSection={removeSection}
+          handleCountChange={handleCountChange}
+          handleOptionSelect={handleOptionSelect}
+        />
         {(section.selectedOption === 'FS' ||
           section.selectedOption === 'FM' ||
           section.selectedOption === 'PU') && (
