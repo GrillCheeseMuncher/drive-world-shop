@@ -1,0 +1,37 @@
+.sold,
+.reserved {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  width: calc(100% - 20px);
+  height: 220px;
+  border-radius: 5px;
+
+  &.sold {
+    background-color: rgba(120, 0, 0, 0.6);
+  }
+
+  &.reserved {
+    background-color: rgba(66, 0, 120, 0.5);
+  }
+
+  .text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    color: var(--font);
+    font-size: 8rem;
+    font-weight: bold;
+    padding: 0px 10px;
+    border-radius: 15px;
+  }
+
+  .sold-overlay {
+    background-color: rgba(120, 0, 0);
+  }
+  .reserved-overlay {
+    background-color: rgba(66, 0, 120);
+  }
+}

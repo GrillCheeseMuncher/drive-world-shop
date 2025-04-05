@@ -1,0 +1,125 @@
+.menu {
+  position: absolute;
+  top: 15px;
+  left: 100px;
+  z-index: 10;
+  font-size: 1.6rem;
+
+  .menu-button {
+    background-color: #3a3a3a;
+    color: var(--font);
+    border: none;
+    border-radius: 8px 0px 5px 0px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.8rem;
+  }
+
+  .menu-content {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--main);
+    padding: 10px;
+    border-radius: 5px;
+    width: 160px;
+    z-index: 15;
+
+    .menu-button {
+      color: var(--font);
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 2rem;
+    }
+
+    .close-button {
+      background-color: #e74c3c;
+      margin-top: 15px;
+      margin-bottom: 0;
+    }
+
+    .reserved-button {
+      background-color: #7b2686;
+    }
+
+    .allow-tv-button {
+      background-color: #a7802c;
+    }
+
+    .sold-button {
+      background-color: #3498db;
+    }
+
+    .count-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--font);
+      gap: 5px;
+      margin-bottom: 5px;
+      font-size: 2rem;
+
+      .count-controls-button {
+        width: 100%;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        text-align: center;
+        padding: 5px 0;
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+
+    .option-buttons {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 15px;
+
+      .option-button {
+        width: 33%;
+        color: var(--font);
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        background-color: rgba(80, 80, 80, 0.8);
+        transition: background-color 0.3s, opacity 0.3s;
+        font-size: 2rem;
+
+        &.selected {
+          background-color: rgba(66, 135, 245, 0.75);
+        }
+
+        &:not(.selected) {
+          opacity: 0.6;
+        }
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .menu-button:hover + .menu-content,
+  .menu-content:hover {
+    display: block;
+  }
+}
