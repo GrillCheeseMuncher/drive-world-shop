@@ -46,33 +46,39 @@ const SectionComponent: React.FC<SectionProps> = ({
         handleOptionSelect={handleOptionSelect}
       />
 
-      {(section.selectedOption === 'FS' ||
-        section.selectedOption === 'FM' ||
-        section.selectedOption === 'PU') && (
-        <div className="right-bottom-corner">
-          {section.selectedOption === 'FS' && <span>FS</span>}
-          {section.selectedOption === 'FM' && <span>FM</span>}
-          {section.selectedOption === 'PU' && <span>PU</span>}
-        </div>
-      )}
-      <label className="image-upload" onClick={() => openImageModal(index)}>
-        {!section.image && <span className="plus-icon">+</span>}
-        {section.image && <img src={section.image} alt="Uploaded" className="section-image" />}
-        {section.count > 1 && !section.isSold && !section.isReserv && (
-          <div className="count-display">
-            <span>x{section.count}</span>
+      <div className="up-container">
+        {(section.selectedOption === 'FS' ||
+          section.selectedOption === 'FM' ||
+          section.selectedOption === 'PU') && (
+          <div className="right-bottom-corner">
+            {section.selectedOption === 'FS' && <span>FS</span>}
+            {section.selectedOption === 'FM' && <span>FM</span>}
+            {section.selectedOption === 'PU' && <span>PU</span>}
           </div>
         )}
-        {(section.text === 'Epsilon Roadster' || section.text === 'Verona Evo') && (
-          <input
-            type="text"
-            placeholder="Serial"
-            className="serial-number-input section-input"
-            onClick={(e) => e.stopPropagation()}
-          />
-        )}
-        <span className="section-input name-input">{section.text || 'Car'}</span>
-      </label>
+        <label className="image-upload" onClick={() => openImageModal(index)}>
+          {!section.image && <span className="plus-icon">+</span>}
+          {section.image && <img src={section.image} alt="Uploaded" className="section-image" />}
+          {section.count > 1 && !section.isSold && !section.isReserv && (
+            <div className="count-display">
+              <span>x{section.count}</span>
+            </div>
+          )}
+          {(section.text === 'Epsilon Roadster' ||
+            section.text === 'Verona Evo' ||
+            section.text === 'Widow' ||
+            section.text === 'Corsair' ||
+            section.text === 'Sidewinder') && (
+            <input
+              type="text"
+              placeholder="Serial"
+              className="serial-number-input section-input"
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
+          <span className="section-input name-input">{section.text || 'Car'}</span>
+        </label>
+      </div>
 
       {!section.isTV && (
         <div className="under-image-content">

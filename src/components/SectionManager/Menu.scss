@@ -1,15 +1,15 @@
 .menu {
   position: absolute;
   top: 15px;
-  left: 100px;
+  right: 15px;
   z-index: 10;
   font-size: 1.6rem;
 
   .menu-button {
-    background-color: #3a3a3a;
+    background-color: transparent;
     color: var(--font);
     border: none;
-    border-radius: 8px 0px 5px 0px;
+    border-radius: 5px;
     width: 30px;
     height: 30px;
     display: flex;
@@ -23,7 +23,7 @@
     display: none;
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     background-color: var(--main);
     padding: 10px;
     border-radius: 5px;

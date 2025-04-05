@@ -500,59 +500,41 @@ const SectionManager: React.FC = () => {
     setSections(newSections);
   };
 
-  // const getInvisibleDivs = () => {
-  //   const visibleSectionsCount = sections.length;
-  //   const invisibleDivs = [];
-
-  //   if (visibleSectionsCount < 1) {
-  //     for (let i = 0; i < 3; i++) {
-  //       invisibleDivs.push(<div key={`invisible-${i}`} className="invisible-div"></div>);
-  //     }
-  //   } else if (visibleSectionsCount === 1) {
-  //     for (let i = 0; i < 2; i++) {
-  //       invisibleDivs.push(<div key={`invisible-${i}`} className="invisible-div"></div>);
-  //     }
-  //   } else if (visibleSectionsCount === 2) {
-  //     invisibleDivs.push(<div key="invisible-1" className="invisible-div"></div>);
-  //   }
-
-  //   return invisibleDivs;
-  // };
-
   return (
     <div className="sections-body">
-      <div className="sections-container">
-        {sections.map((section, index) => (
-          <SectionComponent
-            key={index}
-            section={section}
-            index={index}
-            markAsSold={markAsSold}
-            markAsReserved={markAsReserved}
-            markAsTV={markAsTV}
-            removeSection={removeSection}
-            handleCountChange={handleCountChange}
-            handleTextChange={handleTextChange}
-            handleCustomTextChange={handleCustomTextChange}
-            openImageModal={openImageModal}
-            handleOptionSelect={handleOptionSelect}
-          />
-        ))}
+      <div className="sections-center">
+        <div className="sections-container">
+          {sections.map((section, index) => (
+            <SectionComponent
+              key={index}
+              section={section}
+              index={index}
+              markAsSold={markAsSold}
+              markAsReserved={markAsReserved}
+              markAsTV={markAsTV}
+              removeSection={removeSection}
+              handleCountChange={handleCountChange}
+              handleTextChange={handleTextChange}
+              handleCustomTextChange={handleCustomTextChange}
+              openImageModal={openImageModal}
+              handleOptionSelect={handleOptionSelect}
+            />
+          ))}
 
-        {isModalOpen && (
-          <ImageModal
-            images={filteredImages}
-            searchTerm={searchTerm}
-            handleSearchChange={handleSearchChange}
-            selectImage={selectImage}
-            closeModal={() => setIsModalOpen(false)}
-          />
-        )}
+          {isModalOpen && (
+            <ImageModal
+              images={filteredImages}
+              searchTerm={searchTerm}
+              handleSearchChange={handleSearchChange}
+              selectImage={selectImage}
+              closeModal={() => setIsModalOpen(false)}
+            />
+          )}
 
-        <div className="add-section" onClick={addSection}>
-          <span>+</span>
+          <div className="add-section" onClick={addSection}>
+            <span>+</span>
+          </div>
         </div>
-        {/* {getInvisibleDivs()} */}
       </div>
     </div>
   );
