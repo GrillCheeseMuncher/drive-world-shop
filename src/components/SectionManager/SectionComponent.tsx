@@ -16,6 +16,7 @@ interface SectionProps {
   handleCustomTextChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
   openImageModal: (index: number) => void;
   handleOptionSelect: (index: number, option: string) => void;
+  handleSerialChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
 }
 
 const SectionComponent: React.FC<SectionProps> = ({
@@ -30,6 +31,7 @@ const SectionComponent: React.FC<SectionProps> = ({
   handleCustomTextChange,
   openImageModal,
   handleOptionSelect,
+  handleSerialChange,
 }) => {
   return (
     <div
@@ -72,6 +74,7 @@ const SectionComponent: React.FC<SectionProps> = ({
               type="text"
               placeholder="Serial"
               className="serial-number-input section-input"
+              onChange={(e) => handleSerialChange(e, index)}
               onClick={(e) => e.stopPropagation()}
             />
           )}

@@ -15,6 +15,7 @@ export interface Section {
   isDesc: boolean;
   selectedOption: string;
   count: number;
+  serial: string;
 }
 
 const SectionManager: React.FC = () => {
@@ -220,7 +221,7 @@ const SectionManager: React.FC = () => {
       'images/LMP24.png',
       'images/LRC Xtreme.png',
       'images/LRC.png',
-      'images/LRXX.png',
+      'images/LRXK.png',
       'images/Luxor.png',
       'images/Mako Evo.png',
       'images/Malice.png',
@@ -403,6 +404,7 @@ const SectionManager: React.FC = () => {
         isDesc: false,
         selectedOption: 'FS',
         count: 1,
+        serial: '',
       },
     ]);
   };
@@ -500,6 +502,12 @@ const SectionManager: React.FC = () => {
     setSections(newSections);
   };
 
+  const handleSerialChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const newSections = [...sections];
+    newSections[index].serial = e.target.value;
+    setSections(newSections);
+  };
+
   return (
     <div className="sections-body">
       <div className="sections-center">
@@ -518,6 +526,7 @@ const SectionManager: React.FC = () => {
               handleCustomTextChange={handleCustomTextChange}
               openImageModal={openImageModal}
               handleOptionSelect={handleOptionSelect}
+              handleSerialChange={handleSerialChange}
             />
           ))}
 
