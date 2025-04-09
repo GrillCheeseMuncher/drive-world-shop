@@ -11,19 +11,20 @@
   position: relative;
   transition: background-color 0.3s ease;
   gap: 15px;
+  max-width: 585px;
 
   .up-container {
     display: flex;
     gap: 15px;
+    max-width: 585px;
 
     .right-bottom-corner {
       background-color: rgba(66, 135, 245, 0.9);
       color: var(--font);
       padding: 10px;
       border-radius: 5px;
-      font-size: 3.5rem;
+      font-size: 4.5rem;
       width: 50px;
-      height: 190px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -34,8 +35,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 420px;
-      height: 210px;
+      width: 500px;
+      height: calc(500px / 2);
       cursor: pointer;
       position: relative;
       background-image: url('../../../public/images/carbg.png');
@@ -69,7 +70,7 @@
     color: var(--font);
     padding: 5px 10px;
     border-radius: 5px;
-    font-size: 3.5rem;
+    font-size: 4.5rem;
     font-weight: 600;
     white-space: nowrap;
   }
@@ -86,7 +87,7 @@
         color: var(--font);
         padding: 10px;
         border-radius: 5px;
-        font-size: 3rem;
+        font-size: 4rem;
         width: 50px;
         font-weight: bold;
       }
@@ -105,14 +106,14 @@
       color: var(--font);
       padding: 10px;
       border-radius: 5px;
-      font-size: 3rem;
+      font-size: 4rem;
       font-weight: bold;
     }
   }
 
   .section-input {
     white-space: nowrap;
-    font-size: 3rem;
+    font-size: 3.25rem;
     background-color: rgba(10, 10, 10);
     color: var(--font);
     padding: 5px;
@@ -133,7 +134,7 @@
   }
 
   .price-input {
-    font-size: 3.75rem;
+    font-size: 4.5rem;
     width: calc(100% - 95px);
   }
 
@@ -141,9 +142,9 @@
     position: absolute;
     display: inline-block;
     right: 5px;
-    max-width: 110px;
+    max-width: 150px;
     padding: 5px 10px;
-    bottom: 54px;
+    bottom: 57px;
     font-weight: 600;
   }
 }

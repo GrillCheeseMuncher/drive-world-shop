@@ -57,7 +57,7 @@ const SectionComponent: React.FC<SectionProps> = ({
             {section.selectedOption === 'PU' && <span>PU</span>}
           </div>
         )}
-        <label className="image-upload" onClick={() => openImageModal(index)}>
+        <div className="image-upload" onClick={() => openImageModal(index)}>
           {!section.image && <span className="plus-icon">+</span>}
           {section.image && <img src={section.image} alt="Uploaded" className="section-image" />}
           {section.count > 1 && !section.isSold && !section.isReserv && (
@@ -79,7 +79,7 @@ const SectionComponent: React.FC<SectionProps> = ({
             />
           )}
           <span className="section-input name-input">{section.text || 'Car'}</span>
-        </label>
+        </div>
       </div>
 
       {!section.isTV && (
