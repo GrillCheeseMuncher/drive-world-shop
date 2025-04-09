@@ -27,7 +27,6 @@ const SectionComponent: React.FC<SectionProps> = ({
   markAsTV,
   removeSection,
   handleCountChange,
-  handleTextChange,
   handleCustomTextChange,
   openImageModal,
   handleOptionSelect,
@@ -73,6 +72,7 @@ const SectionComponent: React.FC<SectionProps> = ({
             <input
               type="text"
               placeholder="Serial"
+              value={section.serial}
               className="serial-number-input section-input"
               onChange={(e) => handleSerialChange(e, index)}
               onClick={(e) => e.stopPropagation()}
