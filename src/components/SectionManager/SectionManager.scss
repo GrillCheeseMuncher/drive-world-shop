@@ -21,10 +21,12 @@
       justify-content: center;
       cursor: pointer;
       background-color: rgba(0, 0, 0, 0);
-      border: 8px dashed var(--second);
+      border: 15px dashed var(--second);
       border-radius: 15px;
       font-size: 6.4rem;
       color: var(--font);
+      width: 585px;
+      height: 331px;
     }
   }
 }
