@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SectionComponent from './SectionComponent';
 import ImageModal from './ImageModal';
 import './SectionManager.scss';
@@ -180,6 +180,8 @@ const SectionManager: React.FC = () => {
       'images/Future Volition.png',
       'images/Future.png',
       'images/Galano.png',
+      'images/Gemini GTR.png',
+      'images/Gemini.png',
       'images/Go Kart.png',
       'images/Goliath.png',
       'images/Grant.png',
@@ -508,40 +510,113 @@ const SectionManager: React.FC = () => {
     setSections(newSections);
   };
 
+  const detailsRef = useRef<HTMLDivElement>(null);
+
+  // const captureScreenshot = async () => {
+  //   if (detailsRef.current) {
+  //     const html2canvas = (await import('html2canvas')).default;
+
+  //     const canvas = await html2canvas(detailsRef.current, {
+  //       scale: 1,
+  //       useCORS: true,
+  //       logging: false,
+  //       backgroundColor: null,
+  //     });
+
+  //     const imgData = canvas.toDataURL('image/png');
+
+  //     canvas.toBlob(async (blob: Blob | null) => {
+  //       if (blob) {
+  //         try {
+  //           await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+  //         } catch (err) {
+  //           console.error('Failed to copy image:', err);
+  //         }
+  //       }
+  //     }, 'image/png');
+
+  //     const date = new Date();
+  //     const formattedDate = `${date.getFullYear()}.${(date.getMonth() + 1)
+  //       .toString()
+  //       .padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
+  //     const formattedTime = `${date.getHours().toString().padStart(2, '0')}.${date
+  //       .getMinutes()
+  //       .toString()
+  //       .padStart(2, '0')}.${date.getSeconds().toString().padStart(2, '0')}`;
+  //     const dynamicFilename = `project_drive_world_${formattedDate}_${formattedTime}.png`;
+
+  //     const link = document.createElement('a');
+  //     link.href = imgData;
+  //     link.download = dynamicFilename;
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //   }
+  // };
+
   return (
-    <div className="sections-body">
-      <div className="sections-center">
-        <div className="sections-container">
-          {sections.map((section, index) => (
-            <SectionComponent
-              key={index}
-              section={section}
-              index={index}
-              markAsSold={markAsSold}
-              markAsReserved={markAsReserved}
-              markAsTV={markAsTV}
-              removeSection={removeSection}
-              handleCountChange={handleCountChange}
-              handleTextChange={handleTextChange}
-              handleCustomTextChange={handleCustomTextChange}
-              openImageModal={openImageModal}
-              handleOptionSelect={handleOptionSelect}
-              handleSerialChange={handleSerialChange}
-            />
-          ))}
+    <div>
+      {/* <div className="kinda-header">
+        <button className="screenshotButton" onClick={captureScreenshot}>
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              d="M13 4H8.8C7.11984 4 6.27976 4 5.63803 4.32698C5.07354 4.6146 4.6146 5.07354 4.32698 5.63803C4 6.27976 4 7.11984 4 8.8V15.2C4 16.8802 4 17.7202 4.32698 18.362C4.6146 18.9265 5.07354 19.3854 5.63803 19.673C6.27976 20 7.11984 20 8.8 20H15.2C16.8802 20 17.7202 20 18.362 19.673C18.9265 19.3854 19.3854 18.9265 19.673 18.362C20 17.7202 20 16.8802 20 15.2V11"
+              stroke="#ded8d4"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+            <path
+              d="M4 16L8.29289 11.7071C8.68342 11.3166 9.31658 11.3166 9.70711 11.7071L13 15M13 15L15.7929 12.2071C16.1834 11.8166 16.8166 11.8166 17.2071 12.2071L20 15M13 15L15.25 17.25"
+              stroke="#ded8d4"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+            <path
+              d="M18 3V8M18 8L16 6M18 8L20 6"
+              stroke="#ded8d4"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+        </button>
+      </div> */}
+      <div className="sections-body" ref={detailsRef}>
+        <div className="sections-center">
+          <div className="sections-container">
+            {sections.map((section, index) => (
+              <SectionComponent
+                key={index}
+                section={section}
+                index={index}
+                markAsSold={markAsSold}
+                markAsReserved={markAsReserved}
+                markAsTV={markAsTV}
+                removeSection={removeSection}
+                handleCountChange={handleCountChange}
+                handleTextChange={handleTextChange}
+                handleCustomTextChange={handleCustomTextChange}
+                openImageModal={openImageModal}
+                handleOptionSelect={handleOptionSelect}
+                handleSerialChange={handleSerialChange}
+              />
+            ))}
 
-          {isModalOpen && (
-            <ImageModal
-              images={filteredImages}
-              searchTerm={searchTerm}
-              handleSearchChange={handleSearchChange}
-              selectImage={selectImage}
-              closeModal={() => setIsModalOpen(false)}
-            />
-          )}
+            {isModalOpen && (
+              <ImageModal
+                images={filteredImages}
+                searchTerm={searchTerm}
+                handleSearchChange={handleSearchChange}
+                selectImage={selectImage}
+                closeModal={() => setIsModalOpen(false)}
+              />
+            )}
 
-          <div className="add-section" onClick={addSection}>
-            <span>+</span>
+            <div className="add-section" onClick={addSection}>
+              <span>+</span>
+            </div>
           </div>
         </div>
       </div>

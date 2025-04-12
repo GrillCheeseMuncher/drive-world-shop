@@ -1,7 +1,33 @@
+.kinda-header {
+  height: 150px;
+  background-color: var(--main);
+
+  .screenshotButton {
+    background-color: var(--second);
+    border: none;
+    color: #ded8d4;
+    text-align: center;
+    text-decoration: none;
+    padding: 5px;
+    margin: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    aspect-ratio: 1;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 50px;
+    height: auto;
+  }
+}
+
 .sections-body {
   display: flex;
   justify-content: center;
   width: 100%;
+  background-color: var(--background);
 
   .sections-center {
     display: flex;
