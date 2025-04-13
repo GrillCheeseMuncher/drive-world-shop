@@ -14,9 +14,11 @@ interface SectionProps {
   handleCountChange: (index: number, newCount: number) => void;
   handleTextChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
   handleCustomTextChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
+  handleTvValueChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
   openImageModal: (index: number) => void;
   handleOptionSelect: (index: number, option: string) => void;
   handleSerialChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
+  isEditing: boolean;
 }
 
 const SectionComponent: React.FC<SectionProps> = ({
@@ -28,9 +30,11 @@ const SectionComponent: React.FC<SectionProps> = ({
   removeSection,
   handleCountChange,
   handleCustomTextChange,
+  handleTvValueChange,
   openImageModal,
   handleOptionSelect,
   handleSerialChange,
+  isEditing,
 }) => {
   return (
     <div
@@ -64,61 +68,73 @@ const SectionComponent: React.FC<SectionProps> = ({
               <span>x{section.count}</span>
             </div>
           )}
-          {(section.text === 'Epsilon Roadster' ||
-            section.text === 'Verona Evo' ||
-            section.text === 'Widow' ||
-            section.text === 'Corsair' ||
-            section.text === 'Sidewinder') && (
-            <input
-              type="text"
-              placeholder="Serial"
-              value={section.serial}
-              className="serial-number-input section-input"
-              onChange={(e) => handleSerialChange(e, index)}
-              onClick={(e) => e.stopPropagation()}
-            />
-          )}
-          <span className="section-input name-input">{section.text || 'Car'}</span>
+          {(section.name === 'Epsilon Roadster' ||
+            section.name === 'Verona Evo' ||
+            section.name === 'Widow' ||
+            section.name === 'Corsair' ||
+            section.name === 'Sidewinder') &&
+            (isEditing ? (
+              <input
+                type="text"
+                placeholder="Serial"
+                value={section.serial}
+                className="serial-number-input section-input"
+                onChange={(e) => handleSerialChange(e, index)}
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              <span className={`serial-number-input section-input`}>{section.serial}</span>
+            ))}
+          <span className="section-input name-input">{section.name || 'Car'}</span>
         </div>
       </div>
 
       {!section.isTV && (
         <div className="under-image-content">
           <div className="dollar cash-indicator">$</div>
-          <input
-            type="text"
-            value={section.customText}
-            onChange={(e) => handleCustomTextChange(e, index)}
-            onClick={(e) => e.stopPropagation()}
-            placeholder="Price"
-            className={`section-input price-input`}
-          />
+          {isEditing ? (
+            <input
+              type="text"
+              value={section.price}
+              onChange={(e) => handleCustomTextChange(e, index)}
+              onClick={(e) => e.stopPropagation()}
+              placeholder="Price"
+              className={`section-input price-input`}
+            />
+          ) : (
+            <span className={`section-input price-input`}>{section.price}</span>
+          )}
         </div>
       )}
       {section.isTV && (
         <div className="under-image-content">
-          <div className="value-container">
-            <div className="dollar value-indicator">$</div>
+          <div className="dollar value-indicator">$</div>
+          {isEditing ? (
             <input
               type="text"
-              value={section.customText}
+              value={section.price}
               onChange={(e) => handleCustomTextChange(e, index)}
               onClick={(e) => e.stopPropagation()}
               placeholder="Price"
               className={`section-input price-input`}
             />
-          </div>
-          <div className="value-container">
-            <div className="tv value-indicator">TV</div>
+          ) : (
+            <span className={`section-input price-input`}>{section.price}</span>
+          )}
+
+          <div className="tv value-indicator">TV</div>
+          {isEditing ? (
             <input
               type="text"
-              value={section.customText}
-              onChange={(e) => handleCustomTextChange(e, index)}
+              value={section.tvValue}
+              onChange={(e) => handleTvValueChange(e, index)}
               onClick={(e) => e.stopPropagation()}
-              placeholder="Price"
+              placeholder="Value"
               className={`section-input price-input`}
             />
-          </div>
+          ) : (
+            <span className={`section-input price-input`}>{section.tvValue}</span>
+          )}
         </div>
       )}
 

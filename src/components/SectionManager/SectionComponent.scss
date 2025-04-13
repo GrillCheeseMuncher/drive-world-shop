@@ -79,18 +79,13 @@
     display: flex;
     gap: 15px;
 
-    .value-container {
-      display: flex;
-      gap: 15px;
-
-      .value-indicator {
-        color: var(--font);
-        padding: 10px;
-        border-radius: 5px;
-        font-size: 4rem;
-        width: 50px;
-        font-weight: bold;
-      }
+    .value-indicator {
+      color: var(--font);
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 4rem;
+      min-width: 50px;
+      font-weight: bold;
     }
 
     .dollar {

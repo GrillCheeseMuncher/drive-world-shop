@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import SectionComponent from './SectionComponent';
 import ImageModal from './ImageModal';
 import './SectionManager.scss';
+import ReactDOM from 'react-dom';
 
 export interface Section {
   id: number;
   image: string;
-  text: string;
-  customText: string;
-  buyText: string;
+  name: string;
+  price: string;
+  tvValue: string;
   isSold: boolean;
   isReserv: boolean;
   isTV: boolean;
@@ -24,6 +25,8 @@ const SectionManager: React.FC = () => {
   const [selectedSectionIndex, setSelectedSectionIndex] = useState<number | null>(null);
   const [imageList, setImageList] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isAddSectionVisible, setIsAddSectionVisible] = useState(true);
+  const [isEditing, setIsEditing] = useState(true);
 
   useEffect(() => {
     const savedSections = localStorage.getItem('sections');
@@ -397,9 +400,9 @@ const SectionManager: React.FC = () => {
       {
         id: sections.length,
         image: '',
-        text: '',
-        customText: '',
-        buyText: '',
+        name: '',
+        price: '',
+        tvValue: '',
         isSold: false,
         isReserv: false,
         isTV: false,
@@ -465,7 +468,7 @@ const SectionManager: React.FC = () => {
           : imageName === "Orion Pax 'Optimus Prime'"
           ? 'Orion Pax "Optimus Prime"'
           : imageName;
-      newSections[selectedSectionIndex].text = cleanedImageName;
+      newSections[selectedSectionIndex].name = cleanedImageName;
 
       setSections(newSections);
       setIsModalOpen(false);
@@ -482,7 +485,7 @@ const SectionManager: React.FC = () => {
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSections = [...sections];
-    newSections[index].text = e.target.value;
+    newSections[index].name = e.target.value;
     setSections(newSections);
   };
 
@@ -494,7 +497,13 @@ const SectionManager: React.FC = () => {
 
   const handleCustomTextChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSections = [...sections];
-    newSections[index].customText = e.target.value;
+    newSections[index].price = e.target.value;
+    setSections(newSections);
+  };
+
+  const handleTvValueChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const newSections = [...sections];
+    newSections[index].tvValue = e.target.value;
     setSections(newSections);
   };
 
@@ -504,104 +513,290 @@ const SectionManager: React.FC = () => {
     setSections(newSections);
   };
 
+  const toggleAddSectionVisibility = () => {
+    setIsAddSectionVisible((prev) => !prev);
+  };
+
   const handleSerialChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newSections = [...sections];
-    newSections[index].serial = e.target.value;
+    const inputValue = e.target.value;
+
+    if (/^\d*$/.test(inputValue)) {
+      newSections[index].serial = inputValue ? `#${inputValue}` : '';
+    } else {
+      newSections[index].serial = inputValue;
+    }
+
     setSections(newSections);
+  };
+
+  const handleDragStart = (index: number) => {
+    setSelectedSectionIndex(index);
+  };
+
+  const handleDrop = (index: number) => {
+    if (selectedSectionIndex !== null && selectedSectionIndex !== index) {
+      const newSections = [...sections];
+      const [movedSection] = newSections.splice(selectedSectionIndex, 1);
+      newSections.splice(index, 0, movedSection);
+      setSections(newSections);
+      setSelectedSectionIndex(null);
+    }
   };
 
   const detailsRef = useRef<HTMLDivElement>(null);
 
-  // const captureScreenshot = async () => {
-  //   if (detailsRef.current) {
-  //     const html2canvas = (await import('html2canvas')).default;
+  const handleAction = async (action: 'screenshot' | 'copy' | 'slicedScreenshot') => {
+    setIsEditing(false); // Set editing to false
 
-  //     const canvas = await html2canvas(detailsRef.current, {
-  //       scale: 1,
-  //       useCORS: true,
-  //       logging: false,
-  //       backgroundColor: null,
-  //     });
+    if (action === 'screenshot') {
+      await captureFullSiteScreenshot();
+    } else if (action === 'slicedScreenshot') {
+      await captureScreenshotsInGroups();
+    } else if (action === 'copy') {
+      await copyToClipboard();
+    }
 
-  //     const imgData = canvas.toDataURL('image/png');
+    setIsEditing(true); // Set editing back to true after action
+  };
 
-  //     canvas.toBlob(async (blob: Blob | null) => {
-  //       if (blob) {
-  //         try {
-  //           await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-  //         } catch (err) {
-  //           console.error('Failed to copy image:', err);
-  //         }
-  //       }
-  //     }, 'image/png');
+  const captureScreenshotsInGroups = async () => {
+    const sectionsPerImage = 6; // Number of sections per image
+    const totalSections = sections.length; // Total number of sections
+    const numberOfImages = Math.ceil(totalSections / sectionsPerImage); // Calculate how many images we need
 
-  //     const date = new Date();
-  //     const formattedDate = `${date.getFullYear()}.${(date.getMonth() + 1)
-  //       .toString()
-  //       .padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
-  //     const formattedTime = `${date.getHours().toString().padStart(2, '0')}.${date
-  //       .getMinutes()
-  //       .toString()
-  //       .padStart(2, '0')}.${date.getSeconds().toString().padStart(2, '0')}`;
-  //     const dynamicFilename = `project_drive_world_${formattedDate}_${formattedTime}.png`;
+    for (let i = 0; i < numberOfImages; i++) {
+      const start = i * sectionsPerImage; // Starting index for the current group
+      const end = start + sectionsPerImage; // Ending index for the current group
+      const sectionsToCapture = sections.slice(start, end); // Get the sections for the current image
 
-  //     const link = document.createElement('a');
-  //     link.href = imgData;
-  //     link.download = dynamicFilename;
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //   }
-  // };
+      // Create a temporary container to render the sections to capture
+      const tempContainer = document.createElement('div');
+      tempContainer.style.display = 'flex'; // Optional: Adjust layout as needed
+      tempContainer.style.flexWrap = 'wrap'; // Optional: Adjust layout as needed
+      tempContainer.style.backgroundColor = '#1e2122'; // Optional: Adjust layout as needed
+      tempContainer.style.padding = '10px'; // Optional: Add padding for better spacing
+
+      // Render only the sections that belong to the current group
+      sectionsToCapture.forEach((section) => {
+        const sectionElement = document.createElement('div');
+        sectionElement.style.width = 'calc(100% / 3)'; // Adjust width for 3 sections per row
+        sectionElement.style.boxSizing = 'border-box'; // Ensure padding/margin doesn't affect width
+        sectionElement.style.padding = '10px';
+        ReactDOM.render(
+          <SectionComponent
+            key={section.id}
+            section={section}
+            index={section.id}
+            markAsSold={() => {}}
+            markAsReserved={() => {}}
+            markAsTV={() => {}}
+            removeSection={() => {}}
+            handleCountChange={() => {}}
+            handleTextChange={() => {}}
+            handleCustomTextChange={() => {}}
+            handleTvValueChange={() => {}}
+            openImageModal={() => {}}
+            handleOptionSelect={() => {}}
+            handleSerialChange={() => {}}
+            isEditing={false}
+          />,
+          sectionElement
+        );
+
+        tempContainer.appendChild(sectionElement);
+      });
+
+      // Append the temporary container to the body
+      document.body.appendChild(tempContainer);
+
+      // Capture the screenshot of the current group
+      await captureScreenshot(tempContainer); // Pass the tempContainer here
+
+      // Remove the temporary container from the body
+      document.body.removeChild(tempContainer);
+    }
+  };
+
+  const captureFullSiteScreenshot = async () => {
+    if (detailsRef.current) {
+      await captureScreenshot(detailsRef.current);
+    }
+  };
+
+  const captureScreenshot = async (element: HTMLElement) => {
+    const html2canvas = (await import('html2canvas')).default;
+
+    const canvas = await html2canvas(element, {
+      scale: 1,
+      useCORS: true,
+      logging: false,
+      backgroundColor: null,
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+
+    const date = new Date();
+    const formattedDate = `${date.getFullYear()}.${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
+    const formattedTime = `${date.getHours().toString().padStart(2, '0')}.${date
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}.${date.getSeconds().toString().padStart(2, '0')}`;
+    const dynamicFilename = `project_drive_world_${formattedDate}_${formattedTime}.png`;
+
+    const link = document.createElement('a');
+    link.href = imgData;
+    link.download = dynamicFilename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const copyToClipboard = async () => {
+    if (detailsRef.current) {
+      const html2canvas = (await import('html2canvas')).default;
+
+      const canvas = await html2canvas(detailsRef.current, {
+        scale: 1,
+        useCORS: true,
+        logging: false,
+        backgroundColor: null,
+      });
+
+      canvas.toBlob(async (blob: Blob | null) => {
+        if (blob) {
+          try {
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+          } catch (err) {
+            console.error('Failed to copy image:', err);
+          }
+        }
+      }, 'image/png');
+    }
+  };
 
   return (
     <div>
-      {/* <div className="kinda-header">
-        <button className="screenshotButton" onClick={captureScreenshot}>
-          <svg viewBox="0 0 24 24" fill="none">
-            <path
-              d="M13 4H8.8C7.11984 4 6.27976 4 5.63803 4.32698C5.07354 4.6146 4.6146 5.07354 4.32698 5.63803C4 6.27976 4 7.11984 4 8.8V15.2C4 16.8802 4 17.7202 4.32698 18.362C4.6146 18.9265 5.07354 19.3854 5.63803 19.673C6.27976 20 7.11984 20 8.8 20H15.2C16.8802 20 17.7202 20 18.362 19.673C18.9265 19.3854 19.3854 18.9265 19.673 18.362C20 17.7202 20 16.8802 20 15.2V11"
-              stroke="#ded8d4"
-              stroke-width="2.4"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-            <path
-              d="M4 16L8.29289 11.7071C8.68342 11.3166 9.31658 11.3166 9.70711 11.7071L13 15M13 15L15.7929 12.2071C16.1834 11.8166 16.8166 11.8166 17.2071 12.2071L20 15M13 15L15.25 17.25"
-              stroke="#ded8d4"
-              stroke-width="2.4"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-            <path
-              d="M18 3V8M18 8L16 6M18 8L20 6"
-              stroke="#ded8d4"
-              stroke-width="2.4"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-          </svg>
-        </button>
-      </div> */}
+      <div className="toolbar-header">
+        <div className="toolbar-section">
+          <div className="toolbar-info">Save full as image</div>
+          <button className="toolbar-button" onClick={() => handleAction('screenshot')}>
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M13 4H8.8C7.11984 4 6.27976 4 5.63803 4.32698C5.07354 4.6146 4.6146 5.07354 4.32698 5.63803C4 6.27976 4 7.11984 4 8.8V15.2C4 16.8802 4 17.7202 4.32698 18.362C4.6146 18.9265 5.07354 19.3854 5.63803 19.673C6.27976 20 7.11984 20 8.8 20H15.2C16.8802 20 17.7202 20 18.362 19.673C18.9265 19.3854 19.3854 18.9265 19.673 18.362C20 17.7202 20 16.8802 20 15.2V11"
+                stroke="#ded8d4"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M4 16L8.29289 11.7071C8.68342 11.3166 9.31658 11.3166 9.70711 11.7071L13 15M13 15L15.7929 12.2071C16.1834 11.8166 16.8166 11.8166 17.2071 12.2071L20 15M13 15L15.25 17.25"
+                stroke="#ded8d4"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M18 3V8M18 8L16 6M18 8L20 6"
+                stroke="#ded8d4"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div className="toolbar-section">
+          <div className="toolbar-info long-text">Save as multiple images to 6 section in each</div>
+          <button className="toolbar-button" onClick={() => handleAction('slicedScreenshot')}>
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M13 4H8.8C7.11984 4 6.27976 4 5.63803 4.32698C5.07354 4.6146 4.6146 5.07354 4.32698 5.63803C4 6.27976 4 7.11984 4 8.8V15.2C4 16.8802 4 17.7202 4.32698 18.362C4.6146 18.9265 5.07354 19.3854 5.63803 19.673C6.27976 20 7.11984 20 8.8 20H15.2C16.8802 20 17.7202 20 18.362 19.673C18.9265 19.3854 19.3854 18.9265 19.673 18.362C20 17.7202 20 16.8802 20 15.2V11"
+                stroke="#ded8d4"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M4 16L8.29289 11.7071C8.68342 11.3166 9.31658 11.3166 9.70711 11.7071L13 15M13 15L15.7929 12.2071C16.1834 11.8166 16.8166 11.8166 17.2071 12.2071L20 15M13 15L15.25 17.25"
+                stroke="#ded8d4"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M18 3V8M18 8L16 6M18 8L20 6"
+                stroke="#ded8d4"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div className="toolbar-section">
+          <div className="toolbar-info">Copy full to the clipboard</div>
+          <button className="toolbar-button" onClick={() => handleAction('copy')}>
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M8 5.00005C7.01165 5.00082 6.49359 5.01338 6.09202 5.21799C5.71569 5.40973 5.40973 5.71569 5.21799 6.09202C5 6.51984 5 7.07989 5 8.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.07989 21 8.2 21H15.8C16.9201 21 17.4802 21 17.908 20.782C18.2843 20.5903 18.5903 20.2843 18.782 19.908C19 19.4802 19 18.9201 19 17.8V8.2C19 7.07989 19 6.51984 18.782 6.09202C18.5903 5.71569 18.2843 5.40973 17.908 5.21799C17.5064 5.01338 16.9884 5.00082 16 5.00005M8 5.00005V7H16V5.00005M8 5.00005V4.70711C8 4.25435 8.17986 3.82014 8.5 3.5C8.82014 3.17986 9.25435 3 9.70711 3H14.2929C14.7456 3 15.1799 3.17986 15.5 3.5C15.8201 3.82014 16 4.25435 16 4.70711V5.00005M12 11V17M12 17L10 15M12 17L14 15"
+                stroke="#ded8d4"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div className="toolbar-section">
+          <div className="toolbar-info">
+            {isAddSectionVisible ? 'Hide add section indicator' : 'Show add section indicator'}
+          </div>
+          <button className="toolbar-button" onClick={toggleAddSectionVisibility}>
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 8V16M16 12H8M6 20H18C19.1046 20 20 19.1046 20 18V6C20 4.89543 19.1046 4 18 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20Z"
+                stroke="#ded8d4"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        {/* <div className="toolbar-section"></div> */}
+      </div>
       <div className="sections-body" ref={detailsRef}>
         <div className="sections-center">
           <div className="sections-container">
             {sections.map((section, index) => (
-              <SectionComponent
+              <div
                 key={index}
-                section={section}
-                index={index}
-                markAsSold={markAsSold}
-                markAsReserved={markAsReserved}
-                markAsTV={markAsTV}
-                removeSection={removeSection}
-                handleCountChange={handleCountChange}
-                handleTextChange={handleTextChange}
-                handleCustomTextChange={handleCustomTextChange}
-                openImageModal={openImageModal}
-                handleOptionSelect={handleOptionSelect}
-                handleSerialChange={handleSerialChange}
-              />
+                draggable
+                onDragStart={() => handleDragStart(index)}
+                onDragOver={(e) => e.preventDefault()} // Prevent default to allow drop
+                onDrop={() => handleDrop(index)}
+              >
+                <SectionComponent
+                  key={index}
+                  section={section}
+                  index={index}
+                  markAsSold={markAsSold}
+                  markAsReserved={markAsReserved}
+                  markAsTV={markAsTV}
+                  removeSection={removeSection}
+                  handleCountChange={handleCountChange}
+                  handleTextChange={handleTextChange}
+                  handleCustomTextChange={handleCustomTextChange}
+                  handleTvValueChange={handleTvValueChange}
+                  openImageModal={openImageModal}
+                  handleOptionSelect={handleOptionSelect}
+                  handleSerialChange={handleSerialChange}
+                  isEditing={isEditing}
+                />
+              </div>
             ))}
 
             {isModalOpen && (
@@ -614,9 +809,11 @@ const SectionManager: React.FC = () => {
               />
             )}
 
-            <div className="add-section" onClick={addSection}>
-              <span>+</span>
-            </div>
+            {isAddSectionVisible && (
+              <div className="add-section" onClick={addSection}>
+                <span>+</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

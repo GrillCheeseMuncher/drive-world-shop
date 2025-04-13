@@ -1,25 +1,48 @@
-.kinda-header {
+.toolbar-header {
   height: 150px;
+  width: 100%;
   background-color: var(--main);
+  display: flex;
 
-  .screenshotButton {
-    background-color: var(--second);
-    border: none;
-    color: #ded8d4;
-    text-align: center;
-    text-decoration: none;
-    padding: 5px;
-    margin: 4px;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 100%;
-    aspect-ratio: 1;
-    font-weight: 700;
+  .toolbar-section {
     display: flex;
-    justify-content: center;
     align-items: center;
-    max-width: 50px;
-    height: auto;
+    justify-content: space-between;
+    background-color: var(--background);
+    width: 250px;
+    margin: 20px;
+    gap: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    flex-shrink: 0;
+
+    .toolbar-info {
+      color: var(--font);
+      font-size: 2.5rem;
+    }
+
+    .long-text {
+      font-size: 1.8rem;
+    }
+
+    .toolbar-button {
+      background-color: var(--second);
+      border: none;
+      color: #ded8d4;
+      text-align: center;
+      text-decoration: none;
+      padding: 5px;
+      margin: 4px;
+      cursor: pointer;
+      border-radius: 10px;
+      aspect-ratio: 1;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 100%;
+    }
   }
 }
 
