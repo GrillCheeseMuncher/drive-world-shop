@@ -8,9 +8,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: var(--background);
+    background-color: var(--second);
     width: 250px;
     margin: 20px;
+    margin-right: 0;
     gap: 5px;
     padding: 10px;
     border-radius: 10px;
@@ -26,7 +27,7 @@
     }
 
     .toolbar-button {
-      background-color: var(--second);
+      background-color: var(--background);
       border: none;
       color: #ded8d4;
       text-align: center;
