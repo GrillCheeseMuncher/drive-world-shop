@@ -781,7 +781,7 @@ const SectionManager: React.FC = () => {
                 key={index}
                 draggable
                 onDragStart={() => handleDragStart(index)}
-                onDragOver={(e) => e.preventDefault()} // Prevent default to allow drop
+                onDragOver={(e) => e.preventDefault()}
                 onDrop={() => handleDrop(index)}
               >
                 <SectionComponent
