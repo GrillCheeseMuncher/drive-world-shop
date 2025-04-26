@@ -1,48 +1,92 @@
+.info-header {
+  color: var(--font);
+  font-size: 2rem;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--main);
+  margin-bottom: 10px;
+  gap: 10px;
+  justify-content: center;
+
+  .info-header-link {
+    color: var(--detail);
+
+    &:hover {
+      color: var(--darkdetail);
+    }
+  }
+}
+
 .toolbar-header {
   height: 150px;
   width: 100%;
   background-color: var(--main);
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  .toolbar-section {
+  .toolbar-header-section-container {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--second);
-    width: 250px;
-    margin: 20px;
-    margin-right: 0;
-    gap: 5px;
-    padding: 10px;
-    border-radius: 10px;
-    flex-shrink: 0;
 
-    .toolbar-info {
-      color: var(--font);
-      font-size: 2.5rem;
-    }
-
-    .long-text {
-      font-size: 1.8rem;
-    }
-
-    .toolbar-button {
-      background-color: var(--background);
-      border: none;
-      color: #ded8d4;
-      text-align: center;
-      text-decoration: none;
-      padding: 5px;
-      margin: 4px;
-      cursor: pointer;
-      border-radius: 10px;
-      aspect-ratio: 1;
-      font-weight: 700;
+    .toolbar-section {
       display: flex;
-      justify-content: center;
       align-items: center;
-      width: 100px;
-      height: 100%;
+      justify-content: space-between;
+      background-color: var(--second);
+      width: 250px;
+      margin: 20px;
+      margin-right: 0;
+      gap: 5px;
+      padding: 10px;
+      border-radius: 10px;
+      flex-shrink: 0;
+
+      .toolbar-info {
+        color: var(--font);
+        font-size: 2.5rem;
+      }
+
+      .long-text {
+        font-size: 1.8rem;
+      }
+
+      .toolbar-button {
+        background-color: var(--background);
+        border: none;
+        color: #ded8d4;
+        text-align: center;
+        text-decoration: none;
+        padding: 5px;
+        margin: 4px;
+        cursor: pointer;
+        border-radius: 10px;
+        aspect-ratio: 1;
+        font-weight: 700;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 100%;
+
+        &:hover {
+          background-color: var(--main);
+        }
+      }
+    }
+  }
+
+  .info-header-button {
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 2.5rem;
+    background-color: var(--second);
+    color: var(--font);
+    cursor: pointer;
+    margin-right: 20px;
+
+    &:hover {
+      background-color: var(--background);
     }
   }
 }

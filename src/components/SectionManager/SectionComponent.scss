@@ -51,6 +51,8 @@
         height: 95%;
         object-fit: cover;
         border-radius: 10px;
+        // filter: invert(1);
+        // filter: brightness(0) saturate(100%) invert(0%) grayscale(100%) contrast(1000%);
       }
     }
   }
