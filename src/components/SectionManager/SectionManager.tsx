@@ -210,6 +210,7 @@ const SectionManager: React.FC = () => {
       'images/Horizon Casanova.png',
       'images/Horizon Xtreme.png',
       'images/Horizon.png',
+      'images/Hypergalactic Humvee.png',
       'images/Hyperlance CD3.png',
       'images/HyperOne Evo.png',
       'images/HyperOne.png',
