@@ -281,6 +281,7 @@ const SectionManager: React.FC = () => {
       'images/R400.png',
       'images/R400BC.png',
       'images/R500.png',
+      'images/R800.png',
       'images/Race Pal.png',
       'images/Rally Hunter.png',
       'images/Rally RS.png',
