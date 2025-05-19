@@ -368,7 +368,7 @@ const SectionManager: React.FC = () => {
       'images/V10 RS Widebody.png',
       'images/V10 RS.png',
       'images/Vanaheim.png',
-      'images/Vande Widebody.png',
+      'images/Vandel Widebody.png',
       'images/Vanguard.png',
       'images/Vern.png',
       'images/Verona Evo.png',
