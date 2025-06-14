@@ -146,6 +146,7 @@ const SectionManager: React.FC = () => {
       'images/Contender.png',
       'images/Corsair.png',
       'images/Costello RT.png',
+      'images/Costello.png',
       'images/Crescendo.png',
       'images/Crest.png',
       'images/Crown.png',
@@ -249,6 +250,7 @@ const SectionManager: React.FC = () => {
       'images/Nexus Xtreme.png',
       'images/Nightline S34 Xtreme.png',
       'images/Nightline S34.png',
+      "images/Nightline S35 'Fury'.png",
       'images/Nightline S35 Xtreme.png',
       'images/Nightline S35.png',
       'images/Nightline S36R.png',
@@ -401,6 +403,7 @@ const SectionManager: React.FC = () => {
       'images/ZeroOne Evo.png',
       'images/ZeroOne R.png',
       'images/ZeroOne.png',
+      "images/Zeta 'Baron'.png",
       'images/Zeta Roadster.png',
       'images/Zeus Evo.png',
       'images/Zoomer.png',
@@ -479,6 +482,8 @@ const SectionManager: React.FC = () => {
           ? 'D-16 "Megatron"'
           : imageName === "Elita-1 'Elita'"
           ? 'Elita-1 "Elita"'
+          : imageName === "Nightline S35 'Fury'"
+          ? 'Nightline S35 "Fury"'
           : imageName === "Orion Pax 'Optimus Prime'"
           ? 'Orion Pax "Optimus Prime"'
           : imageName;
