@@ -222,6 +222,7 @@ const SectionManager: React.FC = () => {
       'images/Jackrabbit.png',
       'images/Jaeger Evo.png',
       'images/Jupiter GTR.png',
+      'images/Jupiter.png',
       'images/K.I.T.E.png',
       'images/Kar.png',
       'images/Kingfisher.png',
