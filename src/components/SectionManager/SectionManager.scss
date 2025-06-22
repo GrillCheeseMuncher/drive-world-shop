@@ -97,6 +97,20 @@
   width: 100%;
   background-color: var(--background);
 
+  .watermark {
+    position: absolute;
+    right: 0;
+    background-color: var(--main);
+    color: var(--font);
+    padding: 20px;
+    padding-left: 30px;
+    padding-top: 10px;
+    z-index: 10;
+    font-size: 3rem;
+    font-weight: 500;
+    border-radius: 0 0 0 50px;
+  }
+
   .sections-center {
     display: flex;
     justify-content: center;
@@ -123,5 +137,9 @@
       width: 585px;
       height: 331px;
     }
+  }
+
+  .sections-center-watermark {
+    margin-top: 60px;
   }
 }

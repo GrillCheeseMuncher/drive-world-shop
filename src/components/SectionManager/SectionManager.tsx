@@ -28,12 +28,23 @@ const SectionManager: React.FC = () => {
   const [isAddSectionVisible, setIsAddSectionVisible] = useState(true);
   const [isEditing, setIsEditing] = useState(true);
   const [isInfoVisible, setIsInfoVisible] = useState(true);
+  const [isWatermark, setIsWatermark] = useState(true);
 
   useEffect(() => {
     const savedSections = localStorage.getItem('sections');
     if (savedSections) {
       console.log('Loaded sections from localStorage:', JSON.parse(savedSections));
       setSections(JSON.parse(savedSections));
+    }
+
+    const savedWatermarkState = localStorage.getItem('watermarkVisible');
+    if (savedWatermarkState !== null) {
+      setIsWatermark(savedWatermarkState === 'true');
+    }
+
+    const savedInfoState = localStorage.getItem('infoVisible');
+    if (savedInfoState !== null) {
+      setIsInfoVisible(savedInfoState === 'true');
     }
   }, []);
 
@@ -538,7 +549,15 @@ const SectionManager: React.FC = () => {
   };
 
   const toggleOwnerInfoVisibility = () => {
+    const newState = !isInfoVisible;
     setIsInfoVisible(!isInfoVisible);
+    localStorage.setItem('infoVisible', newState.toString());
+  };
+
+  const toggleWatermarkVisibility = () => {
+    const newState = !isWatermark;
+    setIsWatermark(!isWatermark);
+    localStorage.setItem('watermarkVisible', newState.toString());
   };
 
   const handleSerialChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -809,6 +828,20 @@ const SectionManager: React.FC = () => {
               </svg>
             </button>
           </div>
+          <div className="toolbar-section">
+            <div className="toolbar-info">{isWatermark ? 'Hide watermark' : 'Show watermark'}</div>
+            <button className="toolbar-button" onClick={toggleWatermarkVisibility}>
+              <svg viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 8V16M16 12H8M6 20H18C19.1046 20 20 19.1046 20 18V6C20 4.89543 19.1046 4 18 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20Z"
+                  stroke="#ded8d4"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
         <button className="info-header-button" onClick={toggleOwnerInfoVisibility}>
           {isInfoVisible ? 'Hide' : 'Show'} site
@@ -818,7 +851,12 @@ const SectionManager: React.FC = () => {
         {/* <div className="toolbar-section"></div> */}
       </div>
       <div className="sections-body" ref={detailsRef}>
-        <div className="sections-center">
+        {isWatermark && (
+          <div className="watermark">
+            <span>Made with projectdriveworld.netlify.app</span>
+          </div>
+        )}
+        <div className={`sections-center ${isWatermark ? 'sections-center-watermark' : ''}`}>
           <div className="sections-container">
             {sections.map((section, index) => (
               <div
