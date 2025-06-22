@@ -45,8 +45,12 @@ const ImageModal: React.FC<ImageModalProps> = ({
                 ? 'D-16 "Megatron"'
                 : carName === "Elita-1 'Elita'"
                 ? 'Elita-1 "Elita"'
+                : carName === "Nightline S35 'Fury'"
+                ? 'Nightline S35 "Fury"'
                 : carName === "Orion Pax 'Optimus Prime'"
                 ? 'Orion Pax "Optimus Prime"'
+                : carName === 'KITE'
+                ? 'K.I.T.E'
                 : carName;
 
             return (

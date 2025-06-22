@@ -234,7 +234,7 @@ const SectionManager: React.FC = () => {
       'images/Jaeger Evo.png',
       'images/Jupiter GTR.png',
       'images/Jupiter.png',
-      'images/K.I.T.E.png',
+      'images/KITE.png',
       'images/Kar.png',
       'images/Kingfisher.png',
       'images/Knight.png',
@@ -498,6 +498,8 @@ const SectionManager: React.FC = () => {
           ? 'Nightline S35 "Fury"'
           : imageName === "Orion Pax 'Optimus Prime'"
           ? 'Orion Pax "Optimus Prime"'
+          : imageName === 'KITE'
+          ? 'K.I.T.E'
           : imageName;
       newSections[selectedSectionIndex].name = cleanedImageName;
 
