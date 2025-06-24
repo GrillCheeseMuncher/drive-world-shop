@@ -371,6 +371,7 @@ const SectionManager: React.FC = () => {
   };
 
   const copyFormattedTextToClipboard = async () => {
+    setCopiedText('Copy as text');
     const formattedText = sections
       .map((section) => {
         if (section.name && section.selectedOption) {
