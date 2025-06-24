@@ -30,7 +30,7 @@ const SectionManager: React.FC = () => {
   const [isEditing, setIsEditing] = useState(true);
   const [isInfoVisible, setIsInfoVisible] = useState(true);
   const [isWatermark, setIsWatermark] = useState(true);
-  const [copiedText, setCopiedText] = useState<string>('');
+  const [copiedText, setCopiedText] = useState<string>('Copy as text');
 
   useEffect(() => {
     const savedSections = localStorage.getItem('sections');
@@ -370,7 +370,6 @@ const SectionManager: React.FC = () => {
     }
   };
 
-  setCopiedText('Copy as text');
   const copyFormattedTextToClipboard = async () => {
     const formattedText = sections
       .map((section) => {
