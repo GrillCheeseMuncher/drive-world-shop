@@ -231,6 +231,7 @@ export const carImages: string[] = [
   'images/Project Strato.png',
   'images/Proton Wagon.png',
   'images/Pumpkin Pal.png',
+  'images/Python Freedom.png',
   'images/Python GVR.png',
   'images/Quicksilver.png',
   'images/Quinten Rally.png',
