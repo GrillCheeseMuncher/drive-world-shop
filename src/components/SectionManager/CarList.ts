@@ -312,6 +312,7 @@ export const carImages: string[] = [
   'images/Super5.png',
   'images/T90.png',
   'images/T90 Evo.png',
+  'images/Tempest.png',
   'images/Tesoro.png',
   'images/The Coffin.png',
   'images/The Patriot.png',
