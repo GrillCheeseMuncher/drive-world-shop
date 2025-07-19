@@ -326,6 +326,8 @@ export const carImages: string[] = [
   'images/Trex.png',
   'images/Trident Victory.png',
   'images/Trident.png',
+  'images/Triton.png',
+  'images/Tyrant Evo.png',
   'images/V10 LMS.png',
   'images/V10 RS Widebody.png',
   'images/V10 RS.png',
