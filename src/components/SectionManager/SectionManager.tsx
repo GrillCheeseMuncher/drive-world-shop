@@ -31,6 +31,7 @@ const SectionManager: React.FC = () => {
   const [isInfoVisible, setIsInfoVisible] = useState(true);
   const [isWatermark, setIsWatermark] = useState(true);
   const [copiedText, setCopiedText] = useState<string>('Copy as text');
+  const [isUpdateVisible, setIsUpdateVisible] = useState(true);
 
   useEffect(() => {
     const savedSections = localStorage.getItem('sections');
@@ -192,6 +193,10 @@ const SectionManager: React.FC = () => {
     const newState = !isInfoVisible;
     setIsInfoVisible(!isInfoVisible);
     localStorage.setItem('infoVisible', newState.toString());
+  };
+
+  const toggleUpdateVisibility = () => {
+    setIsUpdateVisible(!isUpdateVisible);
   };
 
   const toggleWatermarkVisibility = () => {
@@ -408,6 +413,11 @@ const SectionManager: React.FC = () => {
           </span>
         </div>
       )}
+      {isUpdateVisible && (
+        <div className="update-section">
+          <span>July 26, 2025 - Update 88 - Aero ● Striker ● Vandel Rally</span>
+        </div>
+      )}
       <div className="toolbar-header">
         <div className="toolbar-header-container">
           <div className="toolbar-section" onClick={() => handleAction('screenshot')}>
@@ -432,6 +442,11 @@ const SectionManager: React.FC = () => {
           </div>
         </div>
         <div className="toolbar-header-container">
+          <div className="toolbar-section" onClick={toggleUpdateVisibility}>
+            <div className="toolbar-info">
+              {isUpdateVisible ? 'Hide update info' : 'Show update info'}
+            </div>
+          </div>
           <div className="toolbar-section end" onClick={toggleOwnerInfoVisibility}>
             <div className="toolbar-info">
               {isInfoVisible ? "Hide owner's info" : "Show owner's info"}
