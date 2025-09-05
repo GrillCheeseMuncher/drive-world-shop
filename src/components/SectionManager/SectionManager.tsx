@@ -415,7 +415,11 @@ const SectionManager: React.FC = () => {
       )}
       {isUpdateVisible && (
         <div className="update-section">
-          <span>July 26, 2025 - Update 88 - Aero ● Striker ● Vandel Rally</span>
+          <span>
+            September 05, 2025 - Update 89 - 290 Mason ● Atom Evo ● Kingfisher Mason ● LMP '24 B ●
+            LUX 800 ● Polaris ● Project Nimbus Evo ● R399 ● R399XK ● RB55XK ● Regent Evo ● Sannis ●
+            Tornado ● Vanaheim Evo ● Verona GTR
+          </span>
         </div>
       )}
       <div className="toolbar-header">
