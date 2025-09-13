@@ -41,6 +41,7 @@ export const carImages: string[] = [
   'images/Arcane Evo.png',
   'images/Ardente GTR.png',
   'images/Ardente.png',
+  'images/Ascend XR.png',
   'images/Atom Evo.png',
   'images/Augusta.png',
   'images/Avenger 3700.png',
