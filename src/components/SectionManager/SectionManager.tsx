@@ -139,6 +139,8 @@ const SectionManager: React.FC = () => {
           ? 'Orion Pax "Optimus Prime"'
           : imageName === 'KITE'
           ? 'K.I.T.E'
+          : imageName === "LUX 800 'Morikawa'"
+          ? 'LUX 800 "Morikawa"'
           : imageName;
       newSections[selectedSectionIndex].name = cleanedImageName;
 
@@ -415,7 +417,7 @@ const SectionManager: React.FC = () => {
       )}
       {isUpdateVisible && (
         <div className="update-section">
-          <span>September 13, 2025 - Update 90 - Ascend XR</span>
+          <span>September 20, 2025 - Update 91 - LUX 800 "Morikawa" ● Zensha Type K</span>
         </div>
       )}
       <div className="toolbar-header">
