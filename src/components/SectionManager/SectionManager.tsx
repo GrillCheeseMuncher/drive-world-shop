@@ -417,7 +417,11 @@ const SectionManager: React.FC = () => {
       )}
       {isUpdateVisible && (
         <div className="update-section">
-          <span>September 20, 2025 - Update 91 - LUX 800 "Morikawa" ● Zensha Type K</span>
+          <span>
+            November 20, 2025 - Update 92 Soon - I will add all cars from past two months, was busy
+            lately and did kinda forgor next time ping me on server discord maybe I will see sooner
+            :P
+          </span>
         </div>
       )}
       <div className="toolbar-header">
