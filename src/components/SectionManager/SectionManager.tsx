@@ -141,6 +141,10 @@ const SectionManager: React.FC = () => {
           ? 'K.I.T.E'
           : imageName === "LUX 800 'Morikawa'"
           ? 'LUX 800 "Morikawa"'
+          : imageName === "Camo 'Medal Edition'"
+          ? 'Camo "Medal Edition"'
+          : imageName === "Camo 'e.l.f. Edition'"
+          ? 'Camo "e.l.f. Edition"'
           : imageName;
       newSections[selectedSectionIndex].name = cleanedImageName;
 
@@ -418,9 +422,10 @@ const SectionManager: React.FC = () => {
       {isUpdateVisible && (
         <div className="update-section">
           <span>
-            November 20, 2025 - Update 92 Soon - I will add all cars from past two months, was busy
-            lately and did kinda forgor next time ping me on server discord maybe I will see sooner
-            :P
+            November 29, 2025 - Update 92 - 'Count' Mako Evo ● Arisaka ● Camo "e.l.f. Edition" ●
+            Camo "Medal Edition" ● Chariot ● D55 RSI Turbo ● Edina Evo ● Edina Xtreme ● Femaris ●
+            Halo ● Kar Xtreme ● Lion Evo ● Manta Evo ● Manta ● Manta RS ● R299 GTR ● Ripper Rod ●
+            Trident Evo ● Vessel 'Optimal' ● Zen 230
           </span>
         </div>
       )}
