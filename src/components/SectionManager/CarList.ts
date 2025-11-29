@@ -75,7 +75,7 @@ export const carImages: string[] = [
   'images/Bullshark.png',
   'images/Butler Roadster.png',
   'images/Buzzard.png',
-  "images/Camo 'e.l.f. Edition'.png",
+  "images/Camo 'elf Edition'.png",
   'images/Camo Freedom.png',
   "images/Camo 'Medal Edition'.png",
   'images/Camo RS.png',

@@ -143,7 +143,7 @@ const SectionManager: React.FC = () => {
           ? 'LUX 800 "Morikawa"'
           : imageName === "Camo 'Medal Edition'"
           ? 'Camo "Medal Edition"'
-          : imageName === "Camo 'e.l.f. Edition'"
+          : imageName === "Camo 'elf Edition'"
           ? 'Camo "e.l.f. Edition"'
           : imageName;
       newSections[selectedSectionIndex].name = cleanedImageName;
