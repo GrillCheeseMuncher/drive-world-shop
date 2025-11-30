@@ -393,6 +393,7 @@ export const carImages: string[] = [
   'images/Widow Xtreme.png',
   'images/Widow.png',
   'images/X60S.png',
+  "images/Yasko 'Knight'.png",
   'images/Yasko.png',
   'images/Zen 230.png',
   'images/Zen3.png',

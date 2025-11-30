@@ -427,6 +427,8 @@ const SectionManager: React.FC = () => {
             Halo ● Kar Xtreme ● Lion Evo ● Manta Evo ● Manta ● Manta RS ● R299 GTR ● Ripper Rod ●
             Trident Evo ● Vessel 'Optimal' ● Zen 230
           </span>
+          <br />
+          <span>November 30, 2025 - Update 93 - Yasko 'Knight'</span>
         </div>
       )}
       <div className="toolbar-header">
